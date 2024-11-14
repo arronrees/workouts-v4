@@ -7,9 +7,10 @@ import morgan from 'morgan';
 import { __in_production, WEB_URL } from './constants';
 import { db } from './db/db';
 import { authRouter } from './routes/auth.routes';
-import { ResLocals } from './constant.types';
+import { GuestLocals } from './constant.types';
 import { checkAuthTokens } from './middleware/auth.middleware';
 import { userRouter } from './routes/user.routes';
+import { workoutRouter } from './routes/workout.routes';
 
 const app = express();
 
@@ -22,7 +23,11 @@ app.use(express.json());
 
 // reset locals
 app.use(
-  (req: Request, res: Response & { locals: ResLocals }, next: NextFunction) => {
+  (
+    req: Request,
+    res: Response & { locals: GuestLocals },
+    next: NextFunction
+  ) => {
     res.locals.user = null;
 
     console.log('------------');
@@ -34,6 +39,7 @@ app.use(
 app.use('/api/auth', authRouter);
 app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
+app.use('/api/workouts', workoutRouter);
 
 // 404 handler
 app.use('*', (req: Request, res: Response, next: NextFunction) => {

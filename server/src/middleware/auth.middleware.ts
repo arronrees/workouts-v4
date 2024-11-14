@@ -1,4 +1,4 @@
-import { JsonApiResponse, ResLocals } from '../constant.types';
+import { JsonApiResponse, GuestLocals } from '../constant.types';
 import { Response, Request, NextFunction } from 'express';
 import {
   __in_production,
@@ -20,7 +20,7 @@ export type AccessTokenData = {
 
 export async function checkAuthTokens(
   req: Request,
-  res: Response<JsonApiResponse> & { locals: ResLocals },
+  res: Response<JsonApiResponse> & { locals: GuestLocals },
   next: NextFunction
 ) {
   const { accessToken, refreshToken } = req.cookies;

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { JsonApiResponse, ResLocals } from '../constant.types';
+import { JsonApiResponse, AuthLocals } from '../constant.types';
 import { SigninUser, SignupUser } from '../validation/auth';
 import { createUser, findUserByEmail, userExists } from '../lib/helpers/user';
 import {
@@ -50,7 +50,7 @@ export async function signupUserController(
 
 export async function signinUserController(
   req: Request,
-  res: Response,
+  res: Response<JsonApiResponse>,
   next: NextFunction
 ) {
   try {
@@ -87,7 +87,7 @@ export async function signinUserController(
 
 export async function signoutUser(
   req: Request,
-  res: Response<JsonApiResponse> & { locals: ResLocals },
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
 ) {
   try {

@@ -15,12 +15,80 @@ datasource db {
 }
 
 model User {
-  id                  String   @id @unique @default(uuid())
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  email               String   @unique
+  id                  String    @id @unique @default(uuid())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  email               String    @unique
   password            String
-  isVerified          Boolean  @default(false)
-  username            String   @unique
-  refreshTokenVersion Int      @default(1)
+  isVerified          Boolean   @default(false)
+  username            String    @unique
+  refreshTokenVersion Int       @default(1)
+  workouts            Workout[]
+}
+
+enum ExerciseMeasurement {
+  time
+  reps
+  weight
+}
+
+model Exercise {
+  id              String               @id @unique @default(uuid())
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+  name            String
+  measurement     ExerciseMeasurement  @default(weight)
+  equipmentNeeded String
+  muscles         MusclesOnExercises[]
+  workoutExercise WorkoutExercise[]
+}
+
+model Muscle {
+  id        String               @id @unique @default(uuid())
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+  name      String
+  exercises MusclesOnExercises[]
+}
+
+model MusclesOnExercises {
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId String
+  muscle     Muscle   @relation(fields: [muscleId], references: [id])
+  muscleId   String
+
+  @@id([exerciseId, muscleId])
+}
+
+model Workout {
+  id        String            @id @unique @default(uuid())
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  name      String
+  user      User              @relation(fields: [userId], references: [id])
+  userId    String
+  exercises WorkoutExercise[]
+}
+
+model WorkoutExercise {
+  id         String       @id @unique @default(uuid())
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  exercise   Exercise     @relation(fields: [exerciseId], references: [id])
+  exerciseId String
+  sets       WorkoutSet[]
+  workout    Workout?     @relation(fields: [workoutId], references: [id])
+  workoutId  String?
+  sortOrder  Int
+}
+
+model WorkoutSet {
+  id                String           @id @unique @default(uuid())
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  reps              Int?
+  weight            Float?
+  time              Float?
+  workoutExercise   WorkoutExercise? @relation(fields: [workoutExerciseId], references: [id])
+  workoutExerciseId String?
 }

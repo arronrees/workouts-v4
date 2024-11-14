@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { JsonApiResponse, ResLocals } from '../constant.types';
+import { JsonApiResponse, AuthLocals } from '../constant.types';
 
 export async function getUserController(
   req: Request,
-  res: Response<JsonApiResponse> & { locals: ResLocals },
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
 ) {
   if (!res.locals.user) {

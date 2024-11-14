@@ -6,6 +6,9 @@ export type JsonApiResponse = {
   error?: string;
 };
 
-export type ResLocals = {
-  user?: User | null;
+export type AuthLocals = {
+  user: User;
+};
+export type GuestLocals = {
+  user: User | null;
 };
