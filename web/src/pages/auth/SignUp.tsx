@@ -53,7 +53,7 @@ export default function SignUp() {
   const error = useActionData() as string | null;
 
   return (
-    <div className='h-screen bg-beige'>
+    <div className='h-screen bg-beige text-green-dark'>
       <div className='h-full'>
         <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
           <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
