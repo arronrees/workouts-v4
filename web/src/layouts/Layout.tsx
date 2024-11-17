@@ -6,7 +6,9 @@ export default function UserLayout({ children }: { children: ReactNode }) {
   return (
     <div className='min-h-screen bg-beige text-green-dark flex flex-col'>
       <header className='py-4 px-6 bg-green-dark text-beige flex gap-8 items-center text-sm lg:text-base lg:gap-10'>
-        <Logo className='h-16 w-auto' />
+        <Link to='/'>
+          <Logo className='h-16 w-auto' />
+        </Link>
         <nav className='hidden md:block'>
           <ul className='flex gap-8 lg:gap-10'>
             <li>

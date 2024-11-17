@@ -119,10 +119,7 @@ export default function SignIn() {
               </div>
 
               <div>
-                <button
-                  type='submit'
-                  className='btn flex w-full justify-center'
-                >
+                <button type='submit' className='btn--primary !w-full'>
                   Sign In
                 </button>
               </div>

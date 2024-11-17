@@ -11,6 +11,7 @@ import SignUp, {
   action as signUpAction,
 } from './pages/auth/SignUp.tsx';
 import { signOutAction } from './constants.ts';
+import Workouts, { loader as exerciseLoader } from './pages/Workouts/Index.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -41,5 +42,10 @@ export const routes: RouteObject[] = [
     path: '/dashboard',
     element: <Dashboard />,
     loader: dashboardLoader,
+  },
+  {
+    path: '/workouts',
+    element: <Workouts />,
+    loader: exerciseLoader,
   },
 ];

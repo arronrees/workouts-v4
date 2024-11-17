@@ -3,6 +3,28 @@ import { JsonApiResponse, AuthLocals } from '../constant.types';
 import { CreateWorkoutObject } from '../validation/workouts';
 import { db } from '../db/db';
 
+export async function getAllUserWorkouts(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  const workouts = await db.workout.findMany({
+    where: {
+      userId: res.locals.user?.id,
+    },
+    include: {
+      exercises: {
+        include: {
+          sets: true,
+          exercise: true,
+        },
+      },
+    },
+  });
+
+  return res.status(200).json({ success: true, data: workouts });
+}
+
 export async function createNewWorkoutController(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },

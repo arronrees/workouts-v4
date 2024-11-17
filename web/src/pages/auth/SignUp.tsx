@@ -211,10 +211,7 @@ export default function SignUp() {
               </div>
 
               <div>
-                <button
-                  type='submit'
-                  className='btn flex w-full justify-center'
-                >
+                <button type='submit' className='btn--primary w-full'>
                   Create Account
                 </button>
               </div>
