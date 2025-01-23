@@ -4,9 +4,18 @@ import axios from 'axios';
 import { ScaleLoader } from 'react-spinners';
 import { Workout } from '../../constant.types';
 import { Link } from 'react-router-dom';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/shadcn/table';
+import { Button } from '../ui/shadcn/button';
 
 export default function WorkoutTable() {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isError, isLoading, error } = useQuery({
     queryKey: ['workouts'],
     queryFn: (): Promise<{ success: boolean; data: Workout[] }> =>
       axios
@@ -19,7 +28,7 @@ export default function WorkoutTable() {
   if (isLoading) {
     return (
       <div className='p-6 flex items-center justify-center'>
-        <ScaleLoader color='#A3DCA1' height={32} />
+        <ScaleLoader color='#334155' height={32} />
       </div>
     );
   }
@@ -35,38 +44,35 @@ export default function WorkoutTable() {
   }
 
   return (
-    <table>
-      <thead>
-        <tr className='text-green-mid font-normal'>
-          <th>Name</th>
-          <th>No. of Exercises</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>No. of Exercises</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
         {data?.data &&
           data?.data.map((workout) => (
-            <tr key={workout.id}>
-              <td>
-                <Link
-                  to={`/workouts/${workout.id}`}
-                  className='hover:font-semibold'
-                >
-                  {workout.name}
-                </Link>
-              </td>
-              <td>{workout.exercises.length}</td>
-              <td>
-                <Link
-                  to={`/workouts/${workout.id}/record`}
-                  className='btn--secondary ml-auto'
-                >
-                  Start
-                </Link>
-              </td>
-            </tr>
+            <TableRow key={workout.id}>
+              <TableCell>
+                <Link to={`/workouts/${workout.id}`}>{workout.name}</Link>
+              </TableCell>
+              <TableCell>{workout.exercises.length}</TableCell>
+              <TableCell>
+                <div className='flex gap-2 justify-end items-center ml-auto'>
+                  <Button asChild variant='ghost' size='sm'>
+                    <Link to={`/workouts/${workout.id}/edit`}>Edit</Link>
+                  </Button>
+                  <Button asChild variant='outline'>
+                    <Link to={`/workouts/${workout.id}`}>View</Link>
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
           ))}
-      </tbody>
-    </table>
+      </TableBody>
+    </Table>
   );
 }

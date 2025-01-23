@@ -1,6 +1,14 @@
 import { redirect, useFetcher } from 'react-router-dom';
 import { getUser } from '../constants';
 import UserLayout from '../layouts/Layout';
+import PageStructure from '@/components/ui/PageStructure';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/shadcn/card';
+import { Dumbbell, Repeat2, Weight } from 'lucide-react';
 
 export async function loader() {
   const user = await getUser();
@@ -17,40 +25,53 @@ function Dashboard() {
 
   return (
     <UserLayout>
-      <div className=''>
-        <section className='flex flex-col gap-4 md:grid md:grid-cols-3 lg:gap-6 xl:gap-8'>
-          <div className='md:col-span-3'>
-            <fetcher.Form method='post' action='/signout'>
-              <button
-                type='submit'
-                className='flex w-full justify-center bg-red-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm transition hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500'
-              >
-                Sign Out
-              </button>
-            </fetcher.Form>
-          </div>
-          <div className='card text-center'>
-            <p className='font-bold text-5xl mb-6 md:text-4xl lg:text-5xl xl:text-6xl'>
-              40,446
-            </p>
-            <p className='font-thin'>KG Lifted</p>
-          </div>
-
-          <div className='card text-center'>
-            <p className='font-bold text-5xl mb-6 md:text-4xl lg:text-5xl xl:text-6xl'>
-              121
-            </p>
-            <p className='font-thin'>Sets Completed</p>
-          </div>
-
-          <div className='card text-center'>
-            <p className='font-bold text-5xl mb-6 md:text-4xl lg:text-5xl xl:text-6xl'>
-              1046
-            </p>
-            <p className='font-thin'>Reps Performed</p>
-          </div>
-        </section>
-      </div>
+      <PageStructure>
+        <div className='md:col-span-3'>
+          <fetcher.Form method='post' action='/signout'>
+            <button
+              type='submit'
+              className='flex w-full justify-center bg-red-500 rounded max-w-max px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm transition hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500'
+            >
+              Sign Out
+            </button>
+          </fetcher.Form>
+        </div>
+        <div className='grid gap-4 md:grid-cols-3 lg:gap-6'>
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-normal'>
+                Total Volume Lifted
+              </CardTitle>
+              <Weight className='h-6 w-6 text-muted-foreground' />
+            </CardHeader>
+            <CardContent>
+              <div className='text-2xl font-bold'>4398 kg</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-normal'>
+                Sets Completed
+              </CardTitle>
+              <Dumbbell className='h-6 w-6 text-muted-foreground' />
+            </CardHeader>
+            <CardContent>
+              <div className='text-2xl font-bold'>184</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+              <CardTitle className='text-sm font-normal'>
+                Reps Performed
+              </CardTitle>
+              <Repeat2 className='h-6 w-6 text-muted-foreground' />
+            </CardHeader>
+            <CardContent>
+              <div className='text-2xl font-bold'>625</div>
+            </CardContent>
+          </Card>
+        </div>
+      </PageStructure>
     </UserLayout>
   );
 }

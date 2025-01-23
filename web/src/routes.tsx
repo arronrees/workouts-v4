@@ -11,7 +11,10 @@ import SignUp, {
   action as signUpAction,
 } from './pages/auth/SignUp.tsx';
 import { signOutAction } from './constants.ts';
-import Workouts, { loader as exerciseLoader } from './pages/Workouts/Index.tsx';
+import Workouts, { loader as workoutLoader } from './pages/Workouts/Index.tsx';
+import CreateWorkout, {
+  loader as createWorkoutLoader,
+} from './pages/Workouts/Create.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -46,6 +49,11 @@ export const routes: RouteObject[] = [
   {
     path: '/workouts',
     element: <Workouts />,
-    loader: exerciseLoader,
+    loader: workoutLoader,
+  },
+  {
+    path: '/workouts/create',
+    element: <CreateWorkout />,
+    loader: createWorkoutLoader,
   },
 ];
