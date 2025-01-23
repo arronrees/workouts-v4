@@ -1,18 +1,15 @@
 import { Router } from 'express';
 import {
-  checkUserSignupObjectValid,
-  checkUserSigninObjectValid,
+  validateLoginUserData,
+  validateRegisterUserData,
 } from '../validation/auth';
-import {
-  signoutUser,
-  signupUserController,
-  signinUserController,
-} from '../controllers/auth.controller';
+import { SessionController } from '../controllers/auth/session.controller';
+import { UserController } from '../controllers/user.controller';
 
 export const authRouter = Router();
 
-authRouter.post('/signup', checkUserSignupObjectValid, signupUserController);
+authRouter.post('/signup', validateRegisterUserData, UserController.store);
 
-authRouter.post('/signin', checkUserSigninObjectValid, signinUserController);
+authRouter.post('/signin', validateLoginUserData, SessionController.store);
 
-authRouter.delete('/signout', signoutUser);
+authRouter.delete('/signout', SessionController.destroy);

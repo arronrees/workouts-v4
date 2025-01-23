@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { JsonApiResponse, AuthLocals } from '../constant.types';
 import { z } from 'zod';
 
-export const createWorkoutModel = z
+export const storeWorkoutData = z
   .object({
     name: z
       .string({
@@ -47,15 +47,15 @@ export const createWorkoutModel = z
   })
   .strict();
 
-export type CreateWorkoutObject = z.infer<typeof createWorkoutModel>;
+export type StoreWorkoutType = z.infer<typeof storeWorkoutData>;
 
-export async function checkWorkoutObjectValid(
+export async function validateStoreWorkoutData(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
 ) {
   try {
-    createWorkoutModel.parse(req.body);
+    storeWorkoutData.parse(req.body);
 
     next();
   } catch (err) {

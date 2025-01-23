@@ -1,11 +1,11 @@
-import { User } from '@prisma/client';
-import { db } from '../../db/db';
+import { User as UserType } from '@prisma/client';
+import { db } from '../db/db';
 
-export async function findUserByEmail(email: string): Promise<User | null> {
+async function findByEmail(email: string): Promise<UserType | null> {
   return await db.user.findUnique({ where: { email } });
 }
 
-export async function userExists({
+async function checkExists({
   email,
   id,
   username,
@@ -43,21 +43,4 @@ export async function userExists({
   return false;
 }
 
-export async function createUser({
-  email,
-  username,
-  password,
-}: {
-  email: string;
-  username: string;
-  password: string;
-}): Promise<User> {
-  return await db.user.create({
-    data: {
-      email,
-      username,
-      password,
-      isVerified: false,
-    },
-  });
-}
+export const User = { findByEmail, checkExists };

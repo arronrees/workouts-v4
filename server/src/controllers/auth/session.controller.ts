@@ -1,62 +1,23 @@
+import { JsonApiResponse, AuthLocals } from '../../constant.types';
 import { NextFunction, Request, Response } from 'express';
-import { JsonApiResponse, AuthLocals } from '../constant.types';
-import { SigninUser, SignupUser } from '../validation/auth';
-import { createUser, findUserByEmail, userExists } from '../lib/helpers/user';
 import {
   clearAuthCookies,
   comparePassword,
-  hashPassword,
   sendAuthCookies,
-} from '../lib/auth';
-import { db } from '../db/db';
+} from '../../lib/auth';
+import { db } from '../../db/db';
+import { LoginUserType } from '../../validation/auth';
+import { User } from '../../models/User';
 
-export async function signupUserController(
+export async function store(
   req: Request,
   res: Response<JsonApiResponse>,
   next: NextFunction
 ) {
   try {
-    const user: SignupUser = req.body;
+    const user: LoginUserType = req.body;
 
-    if (await userExists({ username: user.username })) {
-      return res.status(400).json({
-        success: false,
-        error: 'Username taken, please try another',
-      });
-    }
-
-    if (await userExists({ email: user.email })) {
-      return res.status(400).json({
-        success: false,
-        error: 'User already registered',
-      });
-    }
-
-    const hash = await hashPassword(user.password);
-
-    const newUser = await createUser({
-      ...user,
-      username: user.username.replace(/[^\w\s_\-]/g, ''),
-      password: hash,
-    });
-
-    sendAuthCookies(res, newUser);
-
-    return res.status(201).json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-}
-
-export async function signinUserController(
-  req: Request,
-  res: Response<JsonApiResponse>,
-  next: NextFunction
-) {
-  try {
-    const user: SigninUser = req.body;
-
-    const foundUser = await findUserByEmail(user.email);
+    const foundUser = await User.findByEmail(user.email);
 
     if (!foundUser) {
       return res.status(400).json({
@@ -85,7 +46,7 @@ export async function signinUserController(
   }
 }
 
-export async function signoutUser(
+export async function destroy(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
@@ -110,3 +71,5 @@ export async function signoutUser(
     next(err);
   }
 }
+
+export const SessionController = { store, destroy };

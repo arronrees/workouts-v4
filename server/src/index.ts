@@ -11,6 +11,7 @@ import { GuestLocals } from './constant.types';
 import { checkAuthTokens } from './middleware/auth.middleware';
 import { userRouter } from './routes/user.routes';
 import { workoutRouter } from './routes/workout.routes';
+import { exerciseRouter } from './routes/exercise.routes';
 
 const app = express();
 
@@ -40,10 +41,11 @@ app.use('/api/auth', authRouter);
 app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
 app.use('/api/workouts', workoutRouter);
+app.use('/api/exercises', exerciseRouter);
 
 // 404 handler
 app.use('*', (req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({ error: '404 - Route not found' });
+  return res.status(404).json({ error: '404 - Route not found' });
 });
 
 // error handler

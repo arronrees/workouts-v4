@@ -1,12 +1,9 @@
 import { Router } from 'express';
-import {
-  getAllUserWorkouts,
-  createNewWorkoutController,
-} from '../controllers/workout.controller';
-import { checkWorkoutObjectValid } from '../validation/workouts';
+import { validateStoreWorkoutData } from '../validation/workouts';
+import { WorkoutController } from '../controllers/workout.controller';
 
 export const workoutRouter = Router();
 
-workoutRouter.get('/', getAllUserWorkouts);
+workoutRouter.get('/', WorkoutController.index);
 
-workoutRouter.post('/', checkWorkoutObjectValid, createNewWorkoutController);
+workoutRouter.post('/', validateStoreWorkoutData, WorkoutController.store);

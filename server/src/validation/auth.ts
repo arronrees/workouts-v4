@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { JsonApiResponse } from '../constant.types';
 import { Request, Response, NextFunction } from 'express';
 
-const signupUserModel = z
+const registerUserData = z
   .object({
     username: z
       .string({ message: 'Username is required' })
@@ -14,15 +14,15 @@ const signupUserModel = z
   })
   .strict();
 
-export type SignupUser = z.infer<typeof signupUserModel>;
+export type RegisterUserType = z.infer<typeof registerUserData>;
 
-export async function checkUserSignupObjectValid(
+export async function validateRegisterUserData(
   req: Request,
   res: Response<JsonApiResponse>,
   next: NextFunction
 ) {
   try {
-    signupUserModel.parse(req.body);
+    registerUserData.parse(req.body);
 
     next();
   } catch (err) {
@@ -40,22 +40,22 @@ export async function checkUserSignupObjectValid(
   }
 }
 
-const signinUserModel = z
+const loginUserData = z
   .object({
     email: z.string({ message: 'Email is required' }).email(),
     password: z.string({ message: 'Password is required' }),
   })
   .strict();
 
-export type SigninUser = z.infer<typeof signinUserModel>;
+export type LoginUserType = z.infer<typeof loginUserData>;
 
-export async function checkUserSigninObjectValid(
+export async function validateLoginUserData(
   req: Request,
   res: Response<JsonApiResponse>,
   next: NextFunction
 ) {
   try {
-    signinUserModel.parse(req.body);
+    loginUserData.parse(req.body);
 
     next();
   } catch (err) {

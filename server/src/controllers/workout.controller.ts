@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { JsonApiResponse, AuthLocals } from '../constant.types';
-import { CreateWorkoutObject } from '../validation/workouts';
+import { StoreWorkoutType } from '../validation/workouts';
 import { db } from '../db/db';
 
-export async function getAllUserWorkouts(
+async function index(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
@@ -25,13 +25,13 @@ export async function getAllUserWorkouts(
   return res.status(200).json({ success: true, data: workouts });
 }
 
-export async function createNewWorkoutController(
+async function store(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
 ) {
   try {
-    const { body: newWorkout }: { body: CreateWorkoutObject } = req;
+    const { body: newWorkout }: { body: StoreWorkoutType } = req;
 
     const createdWorkout = await db.workout.create({
       data: {
@@ -62,3 +62,5 @@ export async function createNewWorkoutController(
     next(err);
   }
 }
+
+export const WorkoutController = { index, store };
