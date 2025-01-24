@@ -1,13 +1,26 @@
 import { Form, redirect } from 'react-router-dom';
-import { API_URL, getUser } from '../../constants';
+import { getUser } from '../../constants';
 import UserLayout from '../../layouts/Layout';
-import { useQuery } from '@tanstack/react-query';
-import { Exercise } from '../../constant.types';
-import axios from 'axios';
-import { ScaleLoader } from 'react-spinners';
-import { useState } from 'react';
-import AddExerciseModal from '../../components/workouts/AddExerciseModal';
-import useAxios from '../../hooks/useAxios';
+import PageStructure from '@/components/ui/PageStructure';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/shadcn/breadcrumb';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/shadcn/card';
+import { Button } from '@/components/ui/shadcn/button';
+import { Input } from '@/components/ui/shadcn/input';
+import { Label } from '@/components/ui/shadcn/label';
 
 export async function loader() {
   const user = await getUser();
@@ -19,133 +32,60 @@ export async function loader() {
   return {};
 }
 
-interface NewWorkout {
-  name: string;
-  exercises: NewWorkoutExercise[];
-}
-
-interface NewWorkoutExercise {
-  exerciseId: string;
-  sortOrder: number;
-  name: string;
-  sets: NewWorkoutSet[];
-}
-
-interface NewWorkoutSet {
-  reps?: number;
-  time?: number;
-  weight?: number;
-}
-
 export default function CreateWorkout() {
-  const { isLoading, error, data } = useAxios<Exercise[]>({
-    method: 'GET',
-    url: `${API_URL}/api/exercises`,
-    withCredentials: true,
-  });
-
-  console.log(data);
-
-  const [newWorkout, setNewWorkout] = useState<NewWorkout>({
-    name: '',
-    exercises: [],
-  });
-
-  const [isSelectingExercises, setIsSelectingExercises] =
-    useState<boolean>(false);
-
-  function openModal() {
-    setIsSelectingExercises(true);
-  }
-
-  function closeModal() {
-    setIsSelectingExercises(false);
-  }
-
-  function addExerciseToWorkout(id: string, name: string) {
-    setNewWorkout((prev) => ({
-      ...prev,
-      exercises: [
-        ...prev.exercises,
-        {
-          exerciseId: id,
-          sets: [],
-          sortOrder: prev.exercises.length + 1,
-          name,
-        },
-      ],
-    }));
-  }
-
-  if (isLoading) {
-    return (
-      <UserLayout>
-        <div className='p-6 flex items-center justify-center'>
-          <ScaleLoader color='#A3DCA1' height={32} />
-        </div>
-      </UserLayout>
-    );
-  }
-
-  if (error) {
-    console.log(error);
-
-    return (
-      <UserLayout>
-        <p className='bg-red-200 text-sm p-4'>
-          There was an error fetching exercises, please try again.
-        </p>
-      </UserLayout>
-    );
-  }
-
   return (
     <UserLayout>
-      <div className=''>
-        <h1 className='text-xl md:text-2xl font-semibold mb-4 uppercase tracking-wider'>
-          Create Workout
-        </h1>
-        <div>
-          <div className='card md:col-span-3'>
+      <PageStructure>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='/dashboard'>Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Workouts</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Create Workout</CardTitle>
+            <CardDescription>
+              Add your excerises and create your workout
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <Form method='POST' className='space-y-4'>
               <div>
-                <label htmlFor='workout_name' className='form__label'>
-                  Workout Name
-                </label>
+                <Label htmlFor='password'>Workout Name</Label>
                 <div className='mt-2'>
-                  <input
+                  <Input
                     id='workout_name'
                     name='workout_name'
                     type='text'
                     required
-                    className='form__input'
                   />
                 </div>
               </div>
 
-              <div>
-                <div className='mt-2'>
-                  <button type='button' onClick={openModal}>
-                    Select Exercises
-                  </button>
-                </div>
-                {/* {isSelectingExercises && data?.data && (
-                  <AddExerciseModal
-                    exercises={data.data}
-                    closeModal={closeModal}
-                    addExerciseToWorkout={addExerciseToWorkout}
-                  />
-                )} */}
-                {data?.data?.map((exercise) => (
-                  <p>{exercise.name}</p>
-                ))}
+              <div className='flex'>
+                <Button type='submit' className='w-full max-w-max ml-auto'>
+                  Create
+                </Button>
               </div>
             </Form>
-
-            {newWorkout && <pre>{JSON.stringify(newWorkout)}</pre>}
-          </div>
-        </div>
-      </div>
+          </CardContent>
+          <CardFooter className='flex items-center justify-between gap-2'>
+            <Button type='button' variant='ghost'>
+              Back
+            </Button>
+            <Button type='button' variant='secondary'>
+              Next
+            </Button>
+          </CardFooter>
+        </Card>
+      </PageStructure>
     </UserLayout>
   );
 }

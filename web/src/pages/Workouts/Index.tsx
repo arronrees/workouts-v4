@@ -1,4 +1,4 @@
-import { Outlet, redirect } from 'react-router-dom';
+import { Link, Outlet, redirect } from 'react-router-dom';
 import { getUser } from '../../constants';
 import UserLayout from '../../layouts/Layout';
 import WorkoutTable from '../../components/workouts/WorkoutTable';
@@ -18,6 +18,8 @@ import {
   CardTitle,
 } from '@/components/ui/shadcn/card';
 import PageStructure from '@/components/ui/PageStructure';
+import { Button } from '@/components/ui/shadcn/button';
+import { ArrowUpRight } from 'lucide-react';
 
 export async function loader() {
   const user = await getUser();
@@ -48,11 +50,19 @@ export default function Workouts() {
         </Breadcrumb>
 
         <Card>
-          <CardHeader>
-            <CardTitle>My Workouts</CardTitle>
-            <CardDescription>
-              A list of workouts you have created.
-            </CardDescription>
+          <CardHeader className='flex flex-row items-center justify-between gap-2'>
+            <div>
+              <CardTitle>My Workouts</CardTitle>
+              <CardDescription>
+                A list of workouts you have created.
+              </CardDescription>
+            </div>
+            <Button asChild>
+              <Link to='/workouts/create'>
+                Create New Workout
+                <ArrowUpRight />
+              </Link>
+            </Button>
           </CardHeader>
           <CardContent>
             <WorkoutTable />
