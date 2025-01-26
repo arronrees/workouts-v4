@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/shadcn/button';
-import { NewWorkoutExercise } from './Create';
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Exercise } from '@/constant.types';
 import ExerciseSets from './ExerciseSets';
+import { NewWorkoutExercise } from '@/pages/Workouts/Create';
 
 interface Props {
   selection: NewWorkoutExercise;

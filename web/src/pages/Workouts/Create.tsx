@@ -26,8 +26,8 @@ import { useState } from 'react';
 import { Exercise } from '@/constant.types';
 import { Badge } from '@/components/ui/shadcn/badge';
 import { XIcon } from 'lucide-react';
-import ExerciseCard from './ExerciseCard';
 import axios, { AxiosError } from 'axios';
+import ExerciseCard from '@/components/workouts/ExerciseCard';
 
 export async function loader() {
   const user = await getUser();

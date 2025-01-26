@@ -11,11 +11,12 @@ import SignUp, {
   action as signUpAction,
 } from './pages/auth/SignUp.tsx';
 import { signOutAction } from './constants.ts';
-import Workouts, { loader as workoutLoader } from './pages/Workouts/Index.tsx';
+import Workouts, { loader as workoutsLoader } from './pages/Workouts/Index.tsx';
 import CreateWorkout, {
   loader as createWorkoutLoader,
   action as createWorkoutAction,
 } from './pages/Workouts/Create.tsx';
+import Workout, { loader as workoutLoader } from './pages/Workouts/Show.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -50,12 +51,17 @@ export const routes: RouteObject[] = [
   {
     path: '/workouts',
     element: <Workouts />,
-    loader: workoutLoader,
+    loader: workoutsLoader,
   },
   {
     path: '/workouts/create',
     element: <CreateWorkout />,
     loader: createWorkoutLoader,
     action: createWorkoutAction,
+  },
+  {
+    path: '/workouts/:id',
+    element: <Workout />,
+    loader: workoutLoader,
   },
 ];

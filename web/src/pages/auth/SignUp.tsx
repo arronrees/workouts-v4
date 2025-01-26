@@ -117,11 +117,7 @@ export default function SignUp() {
                   </div>
                 </div>
 
-                <div>
-                  {error && (
-                    <p className='text-red-500 text-sm font-light'>{error}</p>
-                  )}
-                </div>
+                <div>{error && <p className='error__style'>{error}</p>}</div>
 
                 <div>
                   <Button type='submit' className='w-full'>

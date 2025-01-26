@@ -46,5 +46,6 @@ export interface WorkoutSet {
   reps?: number;
   time?: number;
   weight?: number;
+  distance?: number;
   workoutExerciseId: string;
 }

@@ -81,3 +81,7 @@
   width: var(--radix-popover-trigger-width);
   max-height: var(--radix-popover-content-available-height);
 }
+
+.error__style {
+  @apply text-red-500 text-sm font-light;
+}

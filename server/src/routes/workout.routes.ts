@@ -6,4 +6,6 @@ export const workoutRouter = Router();
 
 workoutRouter.get('/', WorkoutController.index);
 
+workoutRouter.get('/:id', WorkoutController.show);
+
 workoutRouter.post('/', validateStoreWorkoutData, WorkoutController.store);

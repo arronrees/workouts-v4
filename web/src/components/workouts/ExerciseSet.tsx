@@ -1,8 +1,8 @@
-import { NewWorkoutExercise, NewWorkoutSet } from './Create';
 import { Input } from '@/components/ui/shadcn/input';
 import { Button } from '@/components/ui/shadcn/button';
 import { XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
+import { NewWorkoutExercise, NewWorkoutSet } from '@/pages/Workouts/Create';
 
 interface Props {
   measurement:

@@ -64,4 +64,42 @@ async function store(
   }
 }
 
-export const WorkoutController = { index, store };
+async function show(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ success: false, error: 'ID is required' });
+  }
+
+  const workout = await db.workout.findUnique({
+    where: { id },
+    include: {
+      exercises: {
+        include: {
+          sets: true,
+          exercise: {
+            include: {
+              muscles: {
+                select: {
+                  muscle: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!workout) {
+    return res.status(404).json({ success: false, error: 'Workout not found' });
+  }
+
+  return res.status(200).json({ success: true, data: workout });
+}
+
+export const WorkoutController = { index, store, show };

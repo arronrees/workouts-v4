@@ -65,7 +65,7 @@ export default function ExerciseSelection({
     console.log(muscleGroupDataError);
     console.log(exerciseDataError);
     return (
-      <p className='text-red-500 text-sm font-light'>
+      <p className='error__style'>
         There was an error fetching your workouts, please try again.
       </p>
     );

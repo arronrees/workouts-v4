@@ -1,9 +1,9 @@
 import { Card, CardContent } from '@/components/ui/shadcn/card';
-import { NewWorkoutExercise } from './Create';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
 import ExerciseSet from './ExerciseSet';
+import { NewWorkoutExercise } from '@/pages/Workouts/Create';
 
 interface Props {
   selection: NewWorkoutExercise;

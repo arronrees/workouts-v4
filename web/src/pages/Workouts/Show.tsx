@@ -1,7 +1,7 @@
-import { Link, redirect } from 'react-router-dom';
+import { Link, redirect, useParams } from 'react-router-dom';
 import { getUser } from '../../constants';
 import UserLayout from '../../layouts/Layout';
-import WorkoutsTable from '../../components/workouts/WorkoutsTable';
+import WorkoutTable from '../../components/workouts/WorkoutTable';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -32,6 +32,10 @@ export async function loader() {
 }
 
 export default function Workouts() {
+  const { id } = useParams();
+
+  if (!id) return redirect('/workouts');
+
   return (
     <UserLayout>
       <PageStructure>
@@ -42,7 +46,11 @@ export default function Workouts() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Workouts</BreadcrumbPage>
+              <BreadcrumbLink href='/workouts'>Workouts</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Workout</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -51,19 +59,22 @@ export default function Workouts() {
           <CardHeader className='flex flex-row items-center justify-between gap-2'>
             <div>
               <CardTitle>My Workouts</CardTitle>
-              <CardDescription>
-                A list of workouts you have created.
-              </CardDescription>
+              <CardDescription>View the workout details</CardDescription>
             </div>
-            <Button asChild size='sm'>
-              <Link to='/workouts/create'>
-                Create New Workout
-                <ArrowUpRight />
-              </Link>
-            </Button>
+            <div className='flex gap-2'>
+              <Button asChild size='sm' variant='secondary'>
+                <Link to={`/workouts/${id}/edit`}>Edit</Link>
+              </Button>
+              <Button asChild size='sm'>
+                <Link to={`/workouts/${id}/record`}>
+                  Record Workout
+                  <ArrowUpRight />
+                </Link>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            <WorkoutsTable />
+            <WorkoutTable id={id} />
           </CardContent>
         </Card>
       </PageStructure>
