@@ -28,7 +28,9 @@ model User {
 
 enum ExerciseMeasurement {
   time
-  reps
+  reps_only
+  distance
+  time_or_distance
   weight
 }
 
@@ -47,7 +49,7 @@ model Muscle {
   id        String               @id @unique @default(uuid())
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
-  name      String
+  name      String               @unique
   exercises MusclesOnExercises[]
 }
 
@@ -78,8 +80,9 @@ model WorkoutExercise {
   exerciseId String
   sets       WorkoutSet[]
   workout    Workout?     @relation(fields: [workoutId], references: [id])
-  workoutId  String?
+  workoutId  String
   sortOrder  Int
+  notes      String?
 }
 
 model WorkoutSet {
@@ -89,6 +92,7 @@ model WorkoutSet {
   reps              Int?
   weight            Float?
   time              Float?
+  distance          Float?
   workoutExercise   WorkoutExercise? @relation(fields: [workoutExerciseId], references: [id])
   workoutExerciseId String?
 }

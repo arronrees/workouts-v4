@@ -10,11 +10,26 @@ export interface Workout {
   exercises: WorkoutExercise[];
 }
 
+export interface MuscleGroup {
+  id: string;
+  name: string;
+}
+
+interface ExerciseMuscleGroup {
+  muscle: MuscleGroup;
+}
+
 export interface Exercise {
   id: string;
   name: string;
-  measurement: 'time' | 'reps' | 'weight';
-  equipmentNeeded: string;
+  measurement:
+    | 'time'
+    | 'reps_only'
+    | 'weight'
+    | 'time_or_distance'
+    | 'distance';
+  equipmentNeeded: 'Full' | 'Basic' | 'None';
+  muscles: ExerciseMuscleGroup[];
 }
 
 export interface WorkoutExercise {

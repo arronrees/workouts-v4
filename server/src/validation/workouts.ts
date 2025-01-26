@@ -36,6 +36,12 @@ export const storeWorkoutData = z
                 invalid_type_error: 'Weight must be a number',
               })
               .nullable(),
+            distance: z
+              .number({
+                required_error: 'Distance is required',
+                invalid_type_error: 'Distance must be a number',
+              })
+              .nullable(),
           })
         ),
         sortOrder: z.number({

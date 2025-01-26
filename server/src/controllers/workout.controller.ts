@@ -50,6 +50,7 @@ async function store(
                 reps: set.reps,
                 time: set.time,
                 weight: set.weight,
+                distance: set.distance,
               })),
             },
           })),

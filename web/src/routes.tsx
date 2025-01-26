@@ -14,6 +14,7 @@ import { signOutAction } from './constants.ts';
 import Workouts, { loader as workoutLoader } from './pages/Workouts/Index.tsx';
 import CreateWorkout, {
   loader as createWorkoutLoader,
+  action as createWorkoutAction,
 } from './pages/Workouts/Create.tsx';
 
 export const routes: RouteObject[] = [
@@ -55,5 +56,6 @@ export const routes: RouteObject[] = [
     path: '/workouts/create',
     element: <CreateWorkout />,
     loader: createWorkoutLoader,
+    action: createWorkoutAction,
   },
 ];

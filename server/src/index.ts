@@ -12,6 +12,7 @@ import { checkAuthTokens } from './middleware/auth.middleware';
 import { userRouter } from './routes/user.routes';
 import { workoutRouter } from './routes/workout.routes';
 import { exerciseRouter } from './routes/exercise.routes';
+import { muscleGroupRouter } from './routes/muscle-group.routes';
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
 app.use('/api/workouts', workoutRouter);
 app.use('/api/exercises', exerciseRouter);
+app.use('/api/muscle-groups', muscleGroupRouter);
 
 // 404 handler
 app.use('*', (req: Request, res: Response, next: NextFunction) => {

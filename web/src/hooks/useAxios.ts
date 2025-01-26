@@ -1,46 +1,45 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-interface ApiResponse<ResponseData> {
+interface IApiResponse<Data> {
   success: boolean;
   error?: string;
-  data?: ResponseData;
+  data?: Data;
 }
 
-const useAxios = <ResponseData>(
+const useAxios = <Data>(
   config: AxiosRequestConfig
 ): {
   isLoading: boolean;
   error: string | null;
-  data: ApiResponse<ResponseData> | null;
+  data: IApiResponse<Data> | null;
 } => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<ApiResponse<ResponseData> | null>(null);
+  const [data, setData] = useState<IApiResponse<Data> | null>(null);
 
-  useEffect(() => {
-    return;
+  const fetchData = useCallback(() => {
     if (!config) return;
 
-    const fetchData = () => {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      axios(config)
-        .then((res) => {
-          setData(res.data);
-        })
-        .catch((err: AxiosError) => {
-          if (err instanceof AxiosError) {
-            setError(err.message);
-          } else {
-            setError('Error making request');
-          }
-        })
-        .finally(() => setIsLoading(false));
-    };
-
-    fetchData();
+    axios({ ...config, withCredentials: true })
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err: AxiosError) => {
+        if (err instanceof AxiosError) {
+          setError(err.message);
+        } else {
+          setError('Error making request');
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, [config]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return { isLoading, error, data };
 };

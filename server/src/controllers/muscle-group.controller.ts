@@ -7,16 +7,12 @@ async function index(
   res: Response<JsonApiResponse> & { locals: AuthLocals },
   next: NextFunction
 ) {
-  const exercises = await db.exercise.findMany({
+  const muscleGroups = await db.muscle.findMany({
     orderBy: { name: 'asc' },
-    include: {
-      muscles: {
-        select: { muscle: { select: { name: true, id: true } } },
-      },
-    },
+    select: { id: true, name: true },
   });
 
-  return res.status(200).json({ success: true, data: exercises });
+  return res.status(200).json({ success: true, data: muscleGroups });
 }
 
-export const ExerciseController = { index };
+export const MuscleGroupController = { index };
