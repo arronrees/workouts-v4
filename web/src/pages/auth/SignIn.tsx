@@ -94,6 +94,7 @@ export default function SignIn() {
                       <a
                         href='/forgot-password'
                         className='font-medium text-xs text-muted-foreground'
+                        tabIndex={-1}
                       >
                         Forgot password?
                       </a>

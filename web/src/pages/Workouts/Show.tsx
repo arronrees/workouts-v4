@@ -1,5 +1,5 @@
 import { Link, redirect, useParams } from 'react-router-dom';
-import { getUser } from '../../constants';
+import { API_URL, getUser } from '../../constants';
 import UserLayout from '../../layouts/Layout';
 import WorkoutTable from '../../components/workouts/WorkoutTable';
 import {
@@ -20,6 +20,9 @@ import {
 import PageStructure from '@/components/ui/PageStructure';
 import { Button } from '@/components/ui/shadcn/button';
 import { ArrowUpRight } from 'lucide-react';
+import axios from 'axios';
+import { Workout } from '@/constant.types';
+import { useQuery } from '@tanstack/react-query';
 
 export async function loader() {
   const user = await getUser();
@@ -31,10 +34,28 @@ export async function loader() {
   return {};
 }
 
-export default function Workouts() {
+export default function ShowWorkout() {
   const { id } = useParams();
 
-  if (!id) return redirect('/workouts');
+  const { data, isError, isLoading, error } = useQuery({
+    queryKey: ['workout', id],
+    queryFn: (): Promise<{ success: boolean; data: Workout }> =>
+      axios
+        .get(`${API_URL}/api/workouts/${id}`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
+  });
+
+  if (isError) {
+    console.log(error.message);
+
+    return (
+      <p className='error__style'>
+        There was an error fetching the workout, please try again.
+      </p>
+    );
+  }
 
   return (
     <UserLayout>
@@ -50,7 +71,7 @@ export default function Workouts() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Workout</BreadcrumbPage>
+              <BreadcrumbPage>{data?.data.name}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -58,7 +79,7 @@ export default function Workouts() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between gap-2'>
             <div>
-              <CardTitle>My Workouts</CardTitle>
+              <CardTitle>{data?.data.name}</CardTitle>
               <CardDescription>View the workout details</CardDescription>
             </div>
             <div className='flex gap-2'>
@@ -74,7 +95,9 @@ export default function Workouts() {
             </div>
           </CardHeader>
           <CardContent>
-            <WorkoutTable id={id} />
+            {data?.data && (
+              <WorkoutTable workout={data.data} isLoading={isLoading} />
+            )}
           </CardContent>
         </Card>
       </PageStructure>

@@ -1,6 +1,3 @@
-import { useQuery } from '@tanstack/react-query';
-import { API_URL } from '../../constants';
-import axios from 'axios';
 import { Workout, WorkoutExercise, WorkoutSet } from '../../constant.types';
 import {
   Table,
@@ -25,30 +22,11 @@ import {
 import { Input } from '../ui/shadcn/input';
 
 interface Props {
-  id: string;
+  isLoading: boolean;
+  workout: Workout;
 }
 
-export default function WorkoutTable({ id }: Props) {
-  const { data, isError, isLoading, error } = useQuery({
-    queryKey: ['workout', id],
-    queryFn: (): Promise<{ success: boolean; data: Workout }> =>
-      axios
-        .get(`${API_URL}/api/workouts/${id}`, {
-          withCredentials: true,
-        })
-        .then((res) => res.data),
-  });
-
-  if (isError) {
-    console.log(error.message);
-
-    return (
-      <p className='error__style'>
-        There was an error fetching the workout, please try again.
-      </p>
-    );
-  }
-
+export default function WorkoutTable({ isLoading, workout }: Props) {
   return (
     <Table>
       <TableHeader>
@@ -69,62 +47,64 @@ export default function WorkoutTable({ id }: Props) {
               ))}
             </TableRow>
           ))}
-        {data?.data &&
-          data?.data.exercises.map((exercise) => (
-            <TableRow key={exercise.id}>
-              <TableCell className='flex flex-col gap-1'>
-                <span>{exercise.exercise.name}</span>
-                <span className='text-muted-foreground'>
-                  {exercise.exercise?.muscles
-                    ?.map((muscle) => muscle.muscle.name)
-                    .join(', ')}
-                </span>
-              </TableCell>
-              <TableCell>{exercise.sets.length}</TableCell>
-              <TableCell align='right'>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      type='button'
-                      variant='outline'
-                      className='block ml-auto'
-                    >
-                      View Sets
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>{exercise.exercise?.name}</DialogTitle>
-                      <DialogDescription>
-                        <span className='flex gap-2 text-muted-foreground mb-2'>
-                          {exercise.exercise?.muscles
-                            ?.map((muscle) => muscle.muscle.name)
-                            .join(', ')}
-                        </span>
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className='flex flex-col gap-4'>
-                      {exercise.sets.map((set, index) => (
-                        <div key={set.id}>
-                          <h3 className='font-semibold text-sm'>
-                            Set {index + 1}
-                          </h3>
-                          <Set exercise={exercise} set={set} />
-                        </div>
-                      ))}
-                    </div>
-                    <DialogFooter className='sm:justify-start'>
-                      <DialogClose asChild>
-                        <Button type='button' variant='secondary'>
-                          Close
-                        </Button>
-                      </DialogClose>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              </TableCell>
-            </TableRow>
-          ))}
+        {workout &&
+          workout.exercises
+            .sort((a, b) => a.sortOrder - b.sortOrder)
+            .map((exercise) => (
+              <TableRow key={exercise.id}>
+                <TableCell className='flex flex-col gap-1'>
+                  <span>{exercise.exercise.name}</span>
+                  <span className='text-muted-foreground'>
+                    {exercise.exercise?.muscles
+                      ?.map((muscle) => muscle.muscle.name)
+                      .join(', ')}
+                  </span>
+                </TableCell>
+                <TableCell>{exercise.sets.length}</TableCell>
+                <TableCell align='right'>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        type='button'
+                        variant='outline'
+                        className='block ml-auto'
+                      >
+                        View Sets
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{exercise.exercise?.name}</DialogTitle>
+                        <DialogDescription>
+                          <span className='flex gap-2 text-muted-foreground mb-2'>
+                            {exercise.exercise?.muscles
+                              ?.map((muscle) => muscle.muscle.name)
+                              .join(', ')}
+                          </span>
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className='flex flex-col gap-4'>
+                        {exercise.sets.map((set, index) => (
+                          <div key={set.id}>
+                            <h3 className='font-semibold text-sm'>
+                              Set {index + 1}
+                            </h3>
+                            <Set exercise={exercise} set={set} />
+                          </div>
+                        ))}
+                      </div>
+                      <DialogFooter className='sm:justify-start'>
+                        <DialogClose asChild>
+                          <Button type='button' variant='secondary'>
+                            Close
+                          </Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                </TableCell>
+              </TableRow>
+            ))}
       </TableBody>
     </Table>
   );

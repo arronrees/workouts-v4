@@ -16,7 +16,13 @@ import CreateWorkout, {
   loader as createWorkoutLoader,
   action as createWorkoutAction,
 } from './pages/Workouts/Create.tsx';
-import Workout, { loader as workoutLoader } from './pages/Workouts/Show.tsx';
+import ShowWorkout, {
+  loader as workoutLoader,
+} from './pages/Workouts/Show.tsx';
+import EditWorkout, {
+  loader as editWorkoutLoader,
+  action as editWorkoutAction,
+} from './pages/Workouts/Edit.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -61,7 +67,13 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/workouts/:id',
-    element: <Workout />,
+    element: <ShowWorkout />,
     loader: workoutLoader,
+  },
+  {
+    path: '/workouts/:id/edit',
+    element: <EditWorkout />,
+    loader: editWorkoutLoader,
+    action: editWorkoutAction,
   },
 ];

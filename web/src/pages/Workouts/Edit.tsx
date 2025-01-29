@@ -1,14 +1,18 @@
-import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+import {
+  ActionFunctionArgs,
+  Form,
+  redirect,
+  useParams,
+} from 'react-router-dom';
 import { API_URL, getUser } from '../../constants';
 import UserLayout from '../../layouts/Layout';
-import PageStructure from '@/components/ui/PageStructure';
 import {
   Breadcrumb,
+  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
+  BreadcrumbPage,
 } from '@/components/ui/shadcn/breadcrumb';
 import {
   Card,
@@ -18,16 +22,18 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/shadcn/card';
+import PageStructure from '@/components/ui/PageStructure';
 import { Button } from '@/components/ui/shadcn/button';
-import { Input } from '@/components/ui/shadcn/input';
-import { Label } from '@/components/ui/shadcn/label';
-import ExerciseSelection from '@/components/workouts/ExerciseSelection';
-import { useState } from 'react';
-import { Exercise } from '@/constant.types';
-import { Badge } from '@/components/ui/shadcn/badge';
-import { XIcon } from 'lucide-react';
 import axios, { AxiosError } from 'axios';
-import ExerciseCard from '@/components/workouts/ExerciseCard';
+import { Exercise, Workout } from '@/constant.types';
+import { useQuery } from '@tanstack/react-query';
+import { Label } from '@/components/ui/shadcn/label';
+import { Input } from '@/components/ui/shadcn/input';
+import { useEffect, useState } from 'react';
+import { XIcon } from 'lucide-react';
+import { Badge } from '@/components/ui/shadcn/badge';
+import EditExerciseSelection from '@/components/workouts/edit/EditExerciseSelection';
+import EditExerciseCard from '@/components/workouts/edit/EditExerciseCard';
 
 export async function loader() {
   const user = await getUser();
@@ -39,29 +45,41 @@ export async function loader() {
   return {};
 }
 
-export interface NewWorkoutSet {
+export interface EditWorkoutSet {
   id: string;
   reps?: number;
   weight?: number;
   distance?: number;
   time?: number;
+  setId?: string;
+  isDeleted: boolean;
 }
 
-export interface NewWorkoutExercise {
-  exercise: Exercise;
-  sortOrder: number;
+export interface EditWorkoutExercise {
   id: string;
-  sets: NewWorkoutSet[];
+  exercise: Exercise;
+  workoutExerciseId?: string;
+  isDeleted: boolean;
+  sortOrder: number;
+  sets: EditWorkoutSet[];
 }
 
 export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
   const name = formData.get('workout_name'),
-    data = formData.get('workout_data') as string;
+    data = formData.get('workout_data') as string,
+    id = formData.get('workout_id');
+
+  if (!id || !data) {
+    console.log('or here');
+    return null;
+  }
+
+  console.log('here');
 
   try {
-    await axios.post(
-      `${API_URL}/api/workouts`,
+    await axios.put(
+      `${API_URL}/api/workouts/${id}`,
       {
         name,
         exercises: JSON.parse(data),
@@ -69,23 +87,25 @@ export async function action({ request }: ActionFunctionArgs) {
       { withCredentials: true }
     );
 
-    return redirect('/workouts');
+    return redirect(`/workouts/${id}`);
   } catch (err) {
     if (err instanceof AxiosError) {
       console.log(err.response?.data?.error);
 
       return err.response?.data?.error
         ? err.response?.data?.error
-        : 'Could not create workout, please try again.';
+        : 'Could not update workout, please try again.';
     }
 
     return null;
   }
 }
 
-export default function CreateWorkout() {
+export default function EditWorkout() {
+  const { id } = useParams();
+
   const [selectedExercises, setSelectedExercises] = useState<
-    NewWorkoutExercise[]
+    EditWorkoutExercise[]
   >([]);
   const [availableExercises, setAvailableExercises] = useState<Exercise[]>([]);
 
@@ -94,6 +114,58 @@ export default function CreateWorkout() {
       prev.filter((exercise) => exercise.exercise.id !== removedExercise.id)
     );
     setAvailableExercises((prev) => [...prev, removedExercise]);
+  }
+
+  const { data, isError, error } = useQuery({
+    queryKey: ['workout', id],
+    queryFn: (): Promise<{ success: boolean; data: Workout }> =>
+      axios
+        .get(`${API_URL}/api/workouts/${id}`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
+  });
+
+  useEffect(() => {
+    if (data?.data) {
+      setSelectedExercises(
+        data.data.exercises.map((exercise) => ({
+          id: exercise.id,
+          isDeleted: false,
+          workoutExerciseId: exercise.id,
+          exercise: exercise.exercise,
+          sortOrder: exercise.sortOrder,
+          sets: exercise.sets.map((set) => ({
+            ...set,
+            isDeleted: false,
+            setId: set.id,
+          })),
+        }))
+      );
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data?.data && availableExercises.length > 0) {
+      setAvailableExercises((prev) => [
+        ...prev.filter(
+          (ex) =>
+            !data.data.exercises
+              .map((exercise) => exercise.exercise.id)
+              .find((id) => id === ex.id)
+        ),
+      ]);
+    }
+  }, [data, availableExercises.length]);
+
+  if (isError) {
+    console.log(error?.message);
+
+    return (
+      <p className='error__style'>
+        There was an error fetching the workout, please try again.
+      </p>
+    );
   }
 
   return (
@@ -110,33 +182,44 @@ export default function CreateWorkout() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Create</BreadcrumbPage>
+              <BreadcrumbLink href={`/workouts/${id}`}>
+                {data?.data.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Edit</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
 
         <Form method='POST' className='flex flex-1 flex-col gap-4 lg:gap-6'>
+          <input type='hidden' name='workout_id' value={id} />
           <input
             type='hidden'
             name='workout_data'
             value={JSON.stringify(
               selectedExercises.map((exercise) => ({
                 id: exercise.exercise.id,
+                workoutExerciseId: exercise.workoutExerciseId ?? null,
+                isDeleted: exercise.isDeleted,
                 sortOrder: exercise.sortOrder,
                 sets: exercise.sets.map((set) => ({
                   reps: set.reps ?? null,
                   time: set.time ?? null,
                   weight: set.weight ?? null,
                   distance: set.distance ?? null,
+                  setId: set.setId ?? null,
+                  isDeleted: exercise.isDeleted,
                 })),
               }))
             )}
           />
           <Card>
             <CardHeader>
-              <CardTitle>Create Workout</CardTitle>
+              <CardTitle>Edit {data?.data.name}</CardTitle>
               <CardDescription>
-                Add your excerises and create your workout
+                Edit your excerises and update your workout
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -149,6 +232,8 @@ export default function CreateWorkout() {
                       name='workout_name'
                       type='text'
                       required
+                      defaultValue={data?.data.name}
+                      autoFocus
                     />
                   </div>
                 </div>
@@ -158,12 +243,12 @@ export default function CreateWorkout() {
                     <div className='flex flex-wrap gap-2 mb-2'>
                       {selectedExercises.map((exercise) => (
                         <Badge
-                          variant='secondary'
                           key={exercise.exercise.id}
+                          variant='secondary'
                           className='flex gap-1 cursor-pointer'
-                          onClick={() =>
-                            removeSelectedExercise(exercise.exercise)
-                          }
+                          // onClick={() =>
+                          // removeSelectedExercise(exercise.exercise)
+                          // }
                         >
                           {exercise.exercise.name}
                           <XIcon className='w-3 h-3' />
@@ -171,7 +256,7 @@ export default function CreateWorkout() {
                       ))}
                     </div>
                   )}
-                  <ExerciseSelection
+                  <EditExerciseSelection
                     availableExercises={availableExercises}
                     setAvailableExercises={setAvailableExercises}
                     setSelectedExercises={setSelectedExercises}
@@ -195,7 +280,7 @@ export default function CreateWorkout() {
                     selectedExercises
                       .sort((a, b) => a.sortOrder - b.sortOrder)
                       .map((selection) => (
-                        <ExerciseCard
+                        <EditExerciseCard
                           key={selection.id}
                           selection={selection}
                           removeSelectedExercise={removeSelectedExercise}
@@ -206,7 +291,7 @@ export default function CreateWorkout() {
                 </div>
               </CardContent>
               <CardFooter className='flex items-center justify-end'>
-                <Button type='submit'>Create</Button>
+                <Button type='submit'>Update</Button>
               </CardFooter>
             </Card>
           )}

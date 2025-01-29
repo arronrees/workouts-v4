@@ -2,8 +2,8 @@ import { Input } from '@/components/ui/shadcn/input';
 import { Button } from '@/components/ui/shadcn/button';
 import { XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
-import { NewWorkoutExercise, NewWorkoutSet } from '@/pages/Workouts/Create';
-import { Label } from '../ui/shadcn/label';
+import { Label } from '../../ui/shadcn/label';
+import { EditWorkoutExercise, EditWorkoutSet } from '@/pages/Workouts/Edit';
 
 interface Props {
   measurement:
@@ -13,9 +13,9 @@ interface Props {
     | 'time_or_distance'
     | 'distance';
   index: number;
-  setSelectedExercises: Dispatch<SetStateAction<NewWorkoutExercise[]>>;
-  selection: NewWorkoutExercise;
-  set: NewWorkoutSet;
+  setSelectedExercises: Dispatch<SetStateAction<EditWorkoutExercise[]>>;
+  selection: EditWorkoutExercise;
+  set: EditWorkoutSet;
 }
 
 function validateNumber(value: string) {
@@ -26,7 +26,7 @@ function validateNumber(value: string) {
   return 0;
 }
 
-export default function ExerciseSet({
+export default function EditExerciseSet({
   set,
   measurement,
   index,
