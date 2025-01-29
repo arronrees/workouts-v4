@@ -153,6 +153,11 @@ async function update(
                 id: exercise.id,
               },
             },
+            workout: {
+              connect: {
+                id: workout.id,
+              },
+            },
             sets: {
               create: exercise.sets.map((set) => ({
                 reps: set.reps,
@@ -168,37 +173,39 @@ async function update(
       for (let index = 0; index < exercise.sets.length; index++) {
         const set = exercise.sets[index];
 
-        if (set.setId) {
-          const updatedSet = await db.workoutSet.update({
-            where: { id: set.setId },
-            data: {
-              distance: set.distance,
-              time: set.time,
-              reps: set.reps,
-              weight: set.weight,
-            },
-          });
-
-          if (set.isDeleted) {
-            const deletedSet = await db.workoutSet.delete({
-              where: {
-                id: set.setId,
-              },
-            });
-          }
-        } else {
-          if (exercise.workoutExerciseId) {
-            const newSet = await db.workoutSet.create({
+        if (!exercise.isDeleted) {
+          if (set.setId) {
+            const updatedSet = await db.workoutSet.update({
+              where: { id: set.setId },
               data: {
                 distance: set.distance,
                 time: set.time,
                 reps: set.reps,
                 weight: set.weight,
-                workoutExercise: {
-                  connect: { id: exercise.workoutExerciseId },
-                },
               },
             });
+
+            if (set.isDeleted) {
+              const deletedSet = await db.workoutSet.delete({
+                where: {
+                  id: set.setId,
+                },
+              });
+            }
+          } else {
+            if (exercise.workoutExerciseId) {
+              const newSet = await db.workoutSet.create({
+                data: {
+                  distance: set.distance,
+                  time: set.time,
+                  reps: set.reps,
+                  weight: set.weight,
+                  workoutExercise: {
+                    connect: { id: exercise.workoutExerciseId },
+                  },
+                },
+              });
+            }
           }
         }
       }

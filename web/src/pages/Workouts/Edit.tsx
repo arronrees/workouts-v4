@@ -71,11 +71,8 @@ export async function action({ request }: ActionFunctionArgs) {
     id = formData.get('workout_id');
 
   if (!id || !data) {
-    console.log('or here');
     return null;
   }
-
-  console.log('here');
 
   try {
     await axios.put(
@@ -111,7 +108,16 @@ export default function EditWorkout() {
 
   function removeSelectedExercise(removedExercise: Exercise) {
     setSelectedExercises((prev) =>
-      prev.filter((exercise) => exercise.exercise.id !== removedExercise.id)
+      prev.map((exercise) => {
+        if (exercise.exercise.id === removedExercise.id) {
+          return {
+            ...exercise,
+            isDeleted: true,
+          };
+        }
+
+        return exercise;
+      })
     );
     setAvailableExercises((prev) => [...prev, removedExercise]);
   }
@@ -210,7 +216,7 @@ export default function EditWorkout() {
                   weight: set.weight ?? null,
                   distance: set.distance ?? null,
                   setId: set.setId ?? null,
-                  isDeleted: exercise.isDeleted,
+                  isDeleted: set.isDeleted,
                 })),
               }))
             )}
@@ -241,19 +247,22 @@ export default function EditWorkout() {
                 <div>
                   {selectedExercises.length > 0 && (
                     <div className='flex flex-wrap gap-2 mb-2'>
-                      {selectedExercises.map((exercise) => (
-                        <Badge
-                          key={exercise.exercise.id}
-                          variant='secondary'
-                          className='flex gap-1 cursor-pointer'
-                          // onClick={() =>
-                          // removeSelectedExercise(exercise.exercise)
-                          // }
-                        >
-                          {exercise.exercise.name}
-                          <XIcon className='w-3 h-3' />
-                        </Badge>
-                      ))}
+                      {selectedExercises.map(
+                        (exercise) =>
+                          !exercise.isDeleted && (
+                            <Badge
+                              key={exercise.exercise.id}
+                              variant='secondary'
+                              className='flex gap-1 cursor-pointer'
+                              onClick={() =>
+                                removeSelectedExercise(exercise.exercise)
+                              }
+                            >
+                              {exercise.exercise.name}
+                              <XIcon className='w-3 h-3' />
+                            </Badge>
+                          )
+                      )}
                     </div>
                   )}
                   <EditExerciseSelection
@@ -279,15 +288,18 @@ export default function EditWorkout() {
                     selectedExercises.length > 0 &&
                     selectedExercises
                       .sort((a, b) => a.sortOrder - b.sortOrder)
-                      .map((selection) => (
-                        <EditExerciseCard
-                          key={selection.id}
-                          selection={selection}
-                          removeSelectedExercise={removeSelectedExercise}
-                          setSelectedExercises={setSelectedExercises}
-                          selectedExercises={selectedExercises}
-                        />
-                      ))}
+                      .map(
+                        (selection) =>
+                          !selection.isDeleted && (
+                            <EditExerciseCard
+                              key={selection.id}
+                              selection={selection}
+                              removeSelectedExercise={removeSelectedExercise}
+                              setSelectedExercises={setSelectedExercises}
+                              selectedExercises={selectedExercises}
+                            />
+                          )
+                      )}
                 </div>
               </CardContent>
               <CardFooter className='flex items-center justify-end'>

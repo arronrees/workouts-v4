@@ -11,7 +11,6 @@ async function show(
   next: NextFunction
 ) {
   if (!res.locals.user) {
-    console.log('here');
     return res
       .status(401)
       .json({ success: false, error: 'User not authorised' });

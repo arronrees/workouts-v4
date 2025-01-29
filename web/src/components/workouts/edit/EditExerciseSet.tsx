@@ -142,7 +142,13 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.filter((s) => s.id !== set.id),
+            sets: exercise.sets.map((s) => {
+              if (s.id === set.id) {
+                return { ...s, isDeleted: true };
+              }
+
+              return s;
+            }),
           };
         }
 
@@ -154,7 +160,7 @@ export default function EditExerciseSet({
   return (
     <div>
       <p className='font-semibold mb-1'>Set {index + 1}</p>
-      <div className='flex gap-1'>
+      <div className='flex gap-1 items-end'>
         {measurement === 'time' && (
           <TimeInput
             updateSetTime={updateSetTime}
@@ -246,6 +252,7 @@ function RepsInput({
 }) {
   return (
     <div className='flex flex-col gap-1 w-full'>
+      <Label htmlFor='reps'>Reps</Label>
       <Input
         type='number'
         onWheel={preventScrollOnNumberInputWheel}

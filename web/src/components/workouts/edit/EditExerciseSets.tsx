@@ -40,16 +40,19 @@ export default function EditExerciseSets({
       <CardContent className='p-4'>
         <div className='flex flex-col gap-2'>
           {selection.sets && selection.sets.length > 0 ? (
-            selection.sets.map((set, index) => (
-              <EditExerciseSet
-                key={set.id}
-                set={set}
-                index={index}
-                measurement={selection.exercise.measurement}
-                setSelectedExercises={setSelectedExercises}
-                selection={selection}
-              />
-            ))
+            selection.sets.map(
+              (set, index) =>
+                !set.isDeleted && (
+                  <EditExerciseSet
+                    key={set.id}
+                    set={set}
+                    index={index}
+                    measurement={selection.exercise.measurement}
+                    setSelectedExercises={setSelectedExercises}
+                    selection={selection}
+                  />
+                )
+            )
           ) : (
             <p className='font-medium text-muted-foreground text-sm'>
               No sets created
