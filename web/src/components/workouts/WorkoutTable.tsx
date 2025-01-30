@@ -122,7 +122,7 @@ function Set({
       {exercise.exercise.measurement === 'time' && (
         <div className='flex-1'>
           <span className='text-muted-foreground font-medium text-xs'>
-            Time
+            Time (minutes)
           </span>
           <Input disabled value={set.time || 0} />
         </div>
@@ -130,7 +130,7 @@ function Set({
       {exercise.exercise.measurement === 'distance' && (
         <div className='flex-1'>
           <span className='text-muted-foreground font-medium text-xs'>
-            Distance
+            Distance (meters)
           </span>
           <Input disabled value={set.distance || 0} />
         </div>
@@ -153,7 +153,7 @@ function Set({
           </div>
           <div className='flex-1'>
             <span className='text-muted-foreground font-medium text-xs'>
-              Weight
+              Weight (kg)
             </span>
             <Input disabled value={set.weight || 0} />
           </div>
@@ -164,7 +164,7 @@ function Set({
           {set.time && (
             <div className='flex-1'>
               <span className='text-muted-foreground font-medium text-xs'>
-                Time
+                Time (minutes)
               </span>
               <Input disabled value={set.time || 0} />
             </div>
@@ -172,7 +172,7 @@ function Set({
           {set.distance && (
             <div className='flex-1'>
               <span className='text-muted-foreground font-medium text-xs'>
-                Distance
+                Distance (meters)
               </span>
               <Input disabled value={set.distance || 0} />
             </div>

@@ -231,6 +231,7 @@ function TimeInput({
         placeholder='Time (minutes)'
         name='time'
         min={0}
+        step={0.1}
         defaultValue={time}
         onChange={(e) => {
           updateSetTime(e.target.value);
@@ -259,6 +260,7 @@ function RepsInput({
         placeholder='Reps'
         name='reps'
         min={0}
+        step={0.1}
         defaultValue={reps}
         onChange={(e) => {
           updateSetReps(e.target.value);
@@ -291,6 +293,7 @@ function WeightInput({
           onWheel={preventScrollOnNumberInputWheel}
           placeholder='Reps'
           name='reps'
+          step={0.1}
           min={0}
           defaultValue={reps}
           onChange={(e) => {
@@ -306,6 +309,7 @@ function WeightInput({
           onWheel={preventScrollOnNumberInputWheel}
           placeholder='Weight (kg)'
           name='weight'
+          step={0.1}
           min={0}
           defaultValue={weight}
           onChange={(e) => {
@@ -342,6 +346,7 @@ function TimeOrDistanceInput({
           placeholder='Distance (meters)?'
           name='distance'
           min={0}
+          step={0.1}
           defaultValue={distance}
           onChange={(e) => {
             updateSetDistance(e.target.value);
@@ -356,6 +361,7 @@ function TimeOrDistanceInput({
           onWheel={preventScrollOnNumberInputWheel}
           placeholder='Time (minutes)?'
           name='time'
+          step={0.1}
           defaultValue={time}
           min={0}
           onChange={(e) => {
@@ -385,6 +391,7 @@ function DistanceInput({
         placeholder='Distance (meters)'
         name='distance'
         min={0}
+        step={0.1}
         defaultValue={distance}
         onChange={(e) => {
           updateSetDistance(e.target.value);
