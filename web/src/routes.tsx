@@ -23,6 +23,10 @@ import EditWorkout, {
   loader as editWorkoutLoader,
   action as editWorkoutAction,
 } from './pages/Workouts/Edit.tsx';
+import RecordWorkout, {
+  loader as recordWorkoutLoader,
+  action as recordWorkoutAction,
+} from './pages/Workouts/Record.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -75,5 +79,11 @@ export const routes: RouteObject[] = [
     element: <EditWorkout />,
     loader: editWorkoutLoader,
     action: editWorkoutAction,
+  },
+  {
+    path: '/workouts/:id/record',
+    element: <RecordWorkout />,
+    loader: recordWorkoutLoader,
+    action: recordWorkoutAction,
   },
 ];

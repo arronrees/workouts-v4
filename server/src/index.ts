@@ -13,6 +13,7 @@ import { userRouter } from './routes/user.routes';
 import { workoutRouter } from './routes/workout.routes';
 import { exerciseRouter } from './routes/exercise.routes';
 import { muscleGroupRouter } from './routes/muscle-group.routes';
+import { workoutInstanceRouter } from './routes/workout-instance.routes';
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api/auth', authRouter);
 app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
 app.use('/api/workouts', workoutRouter);
+app.use('/api/workouts', workoutInstanceRouter);
 app.use('/api/exercises', exerciseRouter);
 app.use('/api/muscle-groups', muscleGroupRouter);
 
