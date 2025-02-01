@@ -42,12 +42,16 @@ export async function loader() {
 
 export interface RecordWorkoutSet {
   id: string;
-  reps?: number;
-  weight?: number;
-  distance?: number;
-  time?: number;
-  setId: string;
+  reps?: number | null;
+  weight?: number | null;
+  distance?: number | null;
+  time?: number | null;
+  setId?: string;
   isDeleted: boolean;
+  targetReps?: number | null;
+  targetDistance?: number | null;
+  targetWeight?: number | null;
+  targetTime?: number | null;
 }
 
 export interface RecordWorkoutExercise {
@@ -70,7 +74,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   try {
     await axios.post(
-      `${API_URL}/api/workouts/${id}/record`,
+      `${API_URL}/api/workouts/history/${id}`,
       {
         exercises: JSON.parse(data),
       },
@@ -138,6 +142,14 @@ export default function RecordWorkout() {
             ...set,
             isDeleted: false,
             setId: set.id,
+            reps: set.reps ? 0 : null,
+            targetReps: set.reps,
+            distance: set.distance ? 0 : null,
+            targetDistance: set.distance,
+            weight: set.weight ? 0 : null,
+            targetWeight: set.weight,
+            time: set.time ? 0 : null,
+            targetTime: set.time,
           })),
         }))
       );

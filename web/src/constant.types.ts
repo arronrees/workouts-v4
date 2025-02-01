@@ -39,6 +39,7 @@ export interface WorkoutExercise {
   sortOrder: number;
   exercise: Exercise;
   sets: WorkoutSet[];
+  notes?: string;
 }
 
 export interface WorkoutSet {
@@ -48,4 +49,32 @@ export interface WorkoutSet {
   weight?: number;
   distance?: number;
   workoutExerciseId: string;
+}
+
+export interface WorkoutExerciseInstance {
+  id: string;
+  exerciseId: string;
+  workoutId: string;
+  sortOrder: number;
+  exercise: Exercise;
+  sets: WorkoutSetInstance[];
+  notes?: string;
+  wasSkipped: boolean;
+}
+
+export interface WorkoutSetInstance {
+  id: string;
+  reps?: number;
+  time?: number;
+  weight?: number;
+  distance?: number;
+  workoutExerciseId: string;
+  wasSkipped: boolean;
+}
+
+export interface WorkoutInstance {
+  id: string;
+  createdAt: Date;
+  workoutId: string;
+  exercises: WorkoutExerciseInstance[];
 }

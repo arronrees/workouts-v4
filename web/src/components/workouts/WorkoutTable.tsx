@@ -52,12 +52,14 @@ export default function WorkoutTable({ isLoading, workout }: Props) {
             .sort((a, b) => a.sortOrder - b.sortOrder)
             .map((exercise) => (
               <TableRow key={exercise.id}>
-                <TableCell className='flex flex-col gap-1'>
-                  <span>{exercise.exercise.name}</span>
-                  <span className='text-muted-foreground'>
-                    {exercise.exercise?.muscles
-                      ?.map((muscle) => muscle.muscle.name)
-                      .join(', ')}
+                <TableCell>
+                  <span className='flex flex-col gap-1 justify-center h-full'>
+                    <span>{exercise.exercise.name}</span>
+                    <span className='text-muted-foreground'>
+                      {exercise.exercise?.muscles
+                        ?.map((muscle) => muscle.muscle.name)
+                        .join(', ')}
+                    </span>
                   </span>
                 </TableCell>
                 <TableCell>{exercise.sets.length}</TableCell>

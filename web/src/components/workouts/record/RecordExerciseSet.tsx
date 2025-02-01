@@ -168,14 +168,14 @@ export default function RecordExerciseSet({
           <TimeInput
             updateSetTime={updateSetTime}
             preventScrollOnNumberInputWheel={preventScrollOnNumberInputWheel}
-            time={set.time}
+            time={set.targetTime}
           />
         )}
         {measurement === 'reps_only' && (
           <RepsInput
             updateSetReps={updateSetReps}
             preventScrollOnNumberInputWheel={preventScrollOnNumberInputWheel}
-            reps={set.reps}
+            reps={set.targetReps}
           />
         )}
         {measurement === 'weight' && (
@@ -183,8 +183,8 @@ export default function RecordExerciseSet({
             updateSetWeight={updateSetWeight}
             updateSetReps={updateSetReps}
             preventScrollOnNumberInputWheel={preventScrollOnNumberInputWheel}
-            weight={set.weight}
-            reps={set.reps}
+            weight={set.targetWeight}
+            reps={set.targetReps}
           />
         )}
         {measurement === 'time_or_distance' && (
@@ -192,15 +192,15 @@ export default function RecordExerciseSet({
             updateSetTime={updateSetTime}
             updateSetDistance={updateSetDistance}
             preventScrollOnNumberInputWheel={preventScrollOnNumberInputWheel}
-            distance={set.distance}
-            time={set.time}
+            distance={set.targetDistance}
+            time={set.targetTime}
           />
         )}
         {measurement === 'distance' && (
           <DistanceInput
             updateSetDistance={updateSetDistance}
             preventScrollOnNumberInputWheel={preventScrollOnNumberInputWheel}
-            distance={set.distance}
+            distance={set.targetDistance}
           />
         )}
         <Button
@@ -223,7 +223,7 @@ function TimeInput({
 }: {
   updateSetTime: (time: string) => void;
   preventScrollOnNumberInputWheel(e: React.WheelEvent<HTMLInputElement>): void;
-  time?: number | string;
+  time?: number | string | null;
 }) {
   return (
     <div className='flex flex-col gap-1 w-full'>
@@ -251,7 +251,7 @@ function RepsInput({
 }: {
   updateSetReps: (reps: string) => void;
   preventScrollOnNumberInputWheel(e: React.WheelEvent<HTMLInputElement>): void;
-  reps?: number | string;
+  reps?: number | string | null;
 }) {
   return (
     <div className='flex flex-col gap-1 w-full'>
@@ -282,8 +282,8 @@ function WeightInput({
   updateSetWeight: (weight: string) => void;
   updateSetReps: (reps: string) => void;
   preventScrollOnNumberInputWheel(e: React.WheelEvent<HTMLInputElement>): void;
-  reps?: number | string;
-  weight?: number | string;
+  reps?: number | string | null;
+  weight?: number | string | null;
 }) {
   return (
     <>
@@ -330,8 +330,8 @@ function TimeOrDistanceInput({
   updateSetTime: (time: string) => void;
   updateSetDistance: (distance: string) => void;
   preventScrollOnNumberInputWheel(e: React.WheelEvent<HTMLInputElement>): void;
-  distance?: number | string;
-  time?: number | string;
+  distance?: number | string | null;
+  time?: number | string | null;
 }) {
   return (
     <>
@@ -377,7 +377,7 @@ function DistanceInput({
 }: {
   updateSetDistance: (distance: string) => void;
   preventScrollOnNumberInputWheel(e: React.WheelEvent<HTMLInputElement>): void;
-  distance?: number | string;
+  distance?: number | string | null;
 }) {
   return (
     <div className='flex flex-col gap-1 w-full'>
