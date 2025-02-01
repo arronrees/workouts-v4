@@ -14,6 +14,7 @@ async function index(
     const history = await db.workoutInstance.findMany({
       where: { workoutId },
       include: {
+        workout: { select: { name: true } },
         exercises: {
           include: {
             exercise: true,
@@ -23,6 +24,44 @@ async function index(
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    return res.status(200).json({ success: true, data: history });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function show(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { workoutId, instanceId } = req.params;
+
+    const history = await db.workoutInstance.findUnique({
+      where: {
+        id: instanceId,
+      },
+      include: {
+        workout: { select: { name: true } },
+        exercises: {
+          orderBy: {
+            sortOrder: 'asc',
+          },
+          include: {
+            exercise: true,
+            sets: true,
+          },
+        },
+      },
+    });
+
+    if (!history) {
+      return res
+        .status(404)
+        .json({ success: false, error: 'Workout not found' });
+    }
 
     return res.status(200).json({ success: true, data: history });
   } catch (err) {
@@ -97,4 +136,4 @@ async function store(
   }
 }
 
-export const WorkoutHistoryController = { store, index };
+export const WorkoutHistoryController = { store, index, show };

@@ -27,6 +27,9 @@ import RecordWorkout, {
   loader as recordWorkoutLoader,
   action as recordWorkoutAction,
 } from './pages/workouts/Record.tsx';
+import ShowWorkoutInstance, {
+  loader as workoutInstanceLoader,
+} from './pages/workouts/history/Show';
 
 export const routes: RouteObject[] = [
   {
@@ -85,5 +88,10 @@ export const routes: RouteObject[] = [
     element: <RecordWorkout />,
     loader: recordWorkoutLoader,
     action: recordWorkoutAction,
+  },
+  {
+    path: '/workouts/:id/history/:instanceId',
+    element: <ShowWorkoutInstance />,
+    loader: workoutInstanceLoader,
   },
 ];

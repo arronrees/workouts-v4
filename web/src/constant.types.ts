@@ -77,4 +77,7 @@ export interface WorkoutInstance {
   createdAt: Date;
   workoutId: string;
   exercises: WorkoutExerciseInstance[];
+  workout: {
+    name: string;
+  };
 }
