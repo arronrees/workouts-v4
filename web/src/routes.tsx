@@ -11,22 +11,22 @@ import SignUp, {
   action as signUpAction,
 } from './pages/auth/SignUp.tsx';
 import { signOutAction } from './constants.ts';
-import Workouts, { loader as workoutsLoader } from './pages/Workouts/Index.tsx';
+import Workouts, { loader as workoutsLoader } from './pages/workouts/Index.tsx';
 import CreateWorkout, {
   loader as createWorkoutLoader,
   action as createWorkoutAction,
-} from './pages/Workouts/Create.tsx';
+} from './pages/workouts/Create.tsx';
 import ShowWorkout, {
   loader as workoutLoader,
-} from './pages/Workouts/Show.tsx';
+} from './pages/workouts/Show.tsx';
 import EditWorkout, {
   loader as editWorkoutLoader,
   action as editWorkoutAction,
-} from './pages/Workouts/Edit.tsx';
+} from './pages/workouts/Edit.tsx';
 import RecordWorkout, {
   loader as recordWorkoutLoader,
   action as recordWorkoutAction,
-} from './pages/Workouts/Record.tsx';
+} from './pages/workouts/Record.tsx';
 
 export const routes: RouteObject[] = [
   {

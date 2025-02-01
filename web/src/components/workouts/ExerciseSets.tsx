@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
 import ExerciseSet from './ExerciseSet';
-import { NewWorkoutExercise } from '@/pages/Workouts/Create';
+import { NewWorkoutExercise } from '@/pages/workouts/Create';
 
 interface Props {
   selection: NewWorkoutExercise;

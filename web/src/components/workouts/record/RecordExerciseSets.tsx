@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/shadcn/card';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
-import { RecordWorkoutExercise } from '@/pages/Workouts/Record';
+import { RecordWorkoutExercise } from '@/pages/workouts/Record';
 import RecordExerciseSet from './RecordExerciseSet';
 
 interface Props {

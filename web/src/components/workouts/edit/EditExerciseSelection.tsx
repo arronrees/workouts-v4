@@ -19,7 +19,7 @@ import { Exercise, MuscleGroup } from '@/constant.types';
 import { Skeleton } from '../../ui/shadcn/skeleton';
 import useAxios from '@/hooks/useAxios';
 import { v4 as uuidv4 } from 'uuid';
-import { EditWorkoutExercise } from '@/pages/Workouts/Edit';
+import { EditWorkoutExercise } from '@/pages/workouts/Edit';
 
 interface Props {
   setSelectedExercises: Dispatch<SetStateAction<EditWorkoutExercise[]>>;

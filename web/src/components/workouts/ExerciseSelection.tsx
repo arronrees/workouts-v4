@@ -14,7 +14,7 @@ import { API_URL } from '@/constants';
 import { Exercise, MuscleGroup } from '@/constant.types';
 import { Skeleton } from '../ui/shadcn/skeleton';
 import useAxios from '@/hooks/useAxios';
-import { NewWorkoutExercise } from '@/pages/Workouts/Create';
+import { NewWorkoutExercise } from '@/pages/workouts/Create';
 import { v4 as uuidv4 } from 'uuid';
 
 interface Props {

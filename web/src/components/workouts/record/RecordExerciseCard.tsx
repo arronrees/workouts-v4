@@ -10,7 +10,7 @@ import {
 import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Exercise } from '@/constant.types';
-import { RecordWorkoutExercise } from '@/pages/Workouts/Record';
+import { RecordWorkoutExercise } from '@/pages/workouts/Record';
 import RecordExerciseSets from './RecordExerciseSets';
 
 interface Props {
