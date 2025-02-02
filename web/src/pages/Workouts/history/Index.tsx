@@ -1,4 +1,4 @@
-import { Link, redirect, useParams } from 'react-router-dom';
+import { redirect, useParams } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -15,8 +15,6 @@ import {
   CardTitle,
 } from '@/components/ui/shadcn/card';
 import PageStructure from '@/components/ui/PageStructure';
-import { Button } from '@/components/ui/shadcn/button';
-import { ArrowUpRight } from 'lucide-react';
 import axios from 'axios';
 import { Workout } from '@/constant.types';
 import { useQuery } from '@tanstack/react-query';
@@ -71,7 +69,13 @@ export default function WorkoutHistory() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{data?.data.name}</BreadcrumbPage>
+              <BreadcrumbLink href={`/workouts/${data?.data.id}`}>
+                {data?.data.name}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>History</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -84,12 +88,6 @@ export default function WorkoutHistory() {
                 View times you've completed this workout
               </CardDescription>
             </div>
-            <Button asChild size='sm'>
-              <Link to={`/workouts/${id}/history`}>
-                All History
-                <ArrowUpRight />
-              </Link>
-            </Button>
           </CardHeader>
           <CardContent>{id && <WorkoutHistoryTable id={id} />}</CardContent>
         </Card>

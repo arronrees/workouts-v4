@@ -14,6 +14,7 @@ import { workoutRouter } from './routes/workout.routes';
 import { exerciseRouter } from './routes/exercise.routes';
 import { muscleGroupRouter } from './routes/muscle-group.routes';
 import { workoutHistoryRouter } from './routes/workout-history.routes';
+import { workoutExerciseRouter } from './routes/workout-exercise.routes';
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
 app.use('/api/workouts', workoutRouter);
 app.use('/api/workouts/history', workoutHistoryRouter);
+app.use('/api/workout-exercises', workoutExerciseRouter);
 app.use('/api/exercises', exerciseRouter);
 app.use('/api/muscle-groups', muscleGroupRouter);
 

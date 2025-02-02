@@ -15,7 +15,7 @@ export interface MuscleGroup {
   name: string;
 }
 
-interface ExerciseMuscleGroup {
+export interface ExerciseMuscleGroup {
   muscle: MuscleGroup;
 }
 

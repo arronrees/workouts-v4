@@ -32,7 +32,10 @@ import WorkoutHistory, {
 } from './pages/workouts/history/Index.tsx';
 import ShowWorkoutInstance, {
   loader as workoutInstanceLoader,
-} from './pages/workouts/history/Show';
+} from './pages/workouts/history/Show.tsx';
+import Exercices, {
+  loader as exerciseLoader,
+} from './pages/exercises/Index.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -101,5 +104,10 @@ export const routes: RouteObject[] = [
     path: '/workouts/:id/history/:instanceId',
     element: <ShowWorkoutInstance />,
     loader: workoutInstanceLoader,
+  },
+  {
+    path: '/exercises',
+    element: <Exercices />,
+    loader: exerciseLoader,
   },
 ];

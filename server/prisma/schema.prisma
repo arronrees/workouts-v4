@@ -24,7 +24,7 @@ model User {
   username            String            @unique
   refreshTokenVersion Int               @default(1)
   workouts            Workout[]
-  WorkoutInstance     WorkoutInstance[]
+  workoutInstances    WorkoutInstance[]
 }
 
 enum ExerciseMeasurement {
@@ -36,15 +36,15 @@ enum ExerciseMeasurement {
 }
 
 model Exercise {
-  id                      String                    @id @unique @default(uuid())
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  name                    String
-  measurement             ExerciseMeasurement       @default(weight)
-  equipmentNeeded         String
-  muscles                 MusclesOnExercises[]
-  workoutExercise         WorkoutExercise[]
-  WorkoutExerciseInstance WorkoutExerciseInstance[]
+  id                       String                    @id @unique @default(uuid())
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  name                     String
+  measurement              ExerciseMeasurement       @default(weight)
+  equipmentNeeded          String
+  muscles                  MusclesOnExercises[]
+  workoutExercises         WorkoutExercise[]
+  workoutExerciseInstances WorkoutExerciseInstance[]
 }
 
 model Muscle {
@@ -65,28 +65,28 @@ model MusclesOnExercises {
 }
 
 model Workout {
-  id              String            @id @unique @default(uuid())
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  name            String
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId          String
-  exercises       WorkoutExercise[]
-  WorkoutInstance WorkoutInstance[]
+  id        String            @id @unique @default(uuid())
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  name      String
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
+  exercises WorkoutExercise[]
+  instances WorkoutInstance[]
 }
 
 model WorkoutExercise {
-  id                      String                    @id @unique @default(uuid())
-  createdAt               DateTime                  @default(now())
-  updatedAt               DateTime                  @updatedAt
-  exercise                Exercise                  @relation(fields: [exerciseId], references: [id])
-  exerciseId              String
-  sets                    WorkoutSet[]
-  workout                 Workout?                  @relation(fields: [workoutId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workoutId               String
-  sortOrder               Int
-  notes                   String?
-  WorkoutExerciseInstance WorkoutExerciseInstance[]
+  id                String                    @id @unique @default(uuid())
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  exercise          Exercise                  @relation(fields: [exerciseId], references: [id])
+  exerciseId        String
+  sets              WorkoutSet[]
+  workout           Workout?                  @relation(fields: [workoutId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workoutId         String
+  sortOrder         Int
+  notes             String?
+  exerciseInstances WorkoutExerciseInstance[]
 }
 
 model WorkoutSet {
