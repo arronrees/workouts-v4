@@ -26,7 +26,7 @@ interface WorkoutExercise {
   sortOrder: number;
   sets: WorkoutSet[];
   notes?: string;
-  exerciseInstances: WorkoutExerciseInstance[];
+  exerciseInstances?: WorkoutExerciseInstance[];
 }
 
 interface WorkoutExerciseInstance {
@@ -34,7 +34,7 @@ interface WorkoutExerciseInstance {
   exerciseId: string;
   workoutId: string;
   sortOrder: number;
-  sets: WorkoutSetInstance[];
+  sets?: WorkoutSetInstance[];
   notes?: string;
   wasSkipped: boolean;
 }
@@ -53,7 +53,7 @@ interface ExerciseProgression {
   workoutExercises: WorkoutExercise[];
 }
 
-export default function WorkoutsTable() {
+export default function ExercisesTable() {
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ['workout-exercises'],
     queryFn: (): Promise<{ success: boolean; data: ExerciseProgression[] }> =>
@@ -111,98 +111,144 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
   const [previousWeight, setPreviousWeight] = useState<number>(0);
   const [targetWeight, setTargetWeight] = useState<number>(0);
 
-  const [percentageOnPreviousWeight, setPercentageOnPreviousWeight] =
-    useState<number>(0);
-  const [percentageOnTarget, setPercentageOnTarget] = useState<number>(0);
+  const [percentageOnPreviousWeight, setPercentageOnPreviousWeight] = useState<
+    number | null
+  >(null);
+  const [percentageOnTarget, setPercentageOnTarget] = useState<number | null>(
+    null
+  );
 
   useEffect(() => {
-    setLatestWeight(
-      exercise.workoutExercises.reduce(
-        (prev, curr) =>
-          prev +
-          curr.exerciseInstances[0].sets.reduce(
-            (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
-            0
-          ),
-        0
-      )
-    );
+    let hasSets: boolean = false;
+    let hasPreviousWorkout: boolean = false;
 
-    setPreviousWeight(
-      exercise.workoutExercises.reduce(
-        (prev, curr) =>
-          prev +
-          curr.exerciseInstances[1]?.sets.reduce(
-            (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
-            0
-          ),
-        0
-      )
-    );
+    exercise.workoutExercises.forEach((exercise) => {
+      if (
+        exercise.exerciseInstances &&
+        exercise.exerciseInstances?.length > 1
+      ) {
+        hasPreviousWorkout = true;
+      }
+      exercise.exerciseInstances?.forEach((instance) => {
+        if (instance.sets && instance.sets.length > 0) {
+          hasSets = true;
+        }
+      });
+    });
 
-    setTargetWeight(
-      exercise.workoutExercises.reduce(
-        (prev, curr) =>
-          prev +
-          curr.sets.reduce((p, c) => p + (c.weight ?? 0) * (c.reps ?? 0), 0),
-        0
-      )
-    );
+    if (hasSets) {
+      setLatestWeight(
+        exercise.workoutExercises.reduce(
+          (prev, curr) =>
+            prev +
+            (curr.exerciseInstances && curr.exerciseInstances[0].sets
+              ? curr.exerciseInstances[0].sets.reduce(
+                  (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                  0
+                )
+              : 0),
+          0
+        )
+      );
+
+      setTargetWeight(
+        exercise.workoutExercises.reduce(
+          (prev, curr) =>
+            prev +
+            (curr.sets
+              ? curr.sets.reduce(
+                  (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                  0
+                )
+              : 0),
+          0
+        )
+      );
+
+      if (hasPreviousWorkout) {
+        setPreviousWeight(
+          exercise.workoutExercises.reduce(
+            (prev, curr) =>
+              prev +
+              (curr.exerciseInstances && curr.exerciseInstances[1]?.sets
+                ? curr.exerciseInstances[1]?.sets.reduce(
+                    (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                    0
+                  )
+                : 0),
+            0
+          )
+        );
+      }
+    }
   }, [exercise.workoutExercises]);
 
   useEffect(() => {
-    setPercentageOnPreviousWeight(
-      ((latestWeight - previousWeight) / previousWeight) * 100
-    );
-    setPercentageOnTarget(((latestWeight - targetWeight) / targetWeight) * 100);
+    if (previousWeight > 0) {
+      setPercentageOnPreviousWeight(
+        ((latestWeight - previousWeight) / previousWeight) * 100
+      );
+    }
+
+    if (targetWeight > 0) {
+      setPercentageOnTarget(
+        ((latestWeight - targetWeight) / targetWeight) * 100
+      );
+    }
   }, [latestWeight, previousWeight, targetWeight]);
 
   return (
-    <TableRow>
-      <TableCell>
-        <Link to={`/exercises/${exercise.id}`}>{exercise.name}</Link>
-      </TableCell>
-      <TableCell>
-        <span className='font-medium'>{latestWeight} kg</span>
-      </TableCell>
-      <TableCell>
-        <span className='flex gap-2 items-center'>
-          <span
-            className={
-              percentageOnPreviousWeight > 0
-                ? 'text-green-600 bg-green-100 px-1'
-                : 'text-red-500 bg-red-100 rounded-sm px-1'
-            }
-          >
-            {percentageOnPreviousWeight.toFixed(2)}%
-          </span>
-          <span className='text-muted-foreground text-xs'>
-            ({previousWeight} kg)
-          </span>
-        </span>
-      </TableCell>
-      <TableCell>
-        <span className='flex gap-2 items-center'>
-          <span
-            className={
-              percentageOnTarget > 0
-                ? 'text-green-600 bg-green-100 px-1'
-                : 'text-red-500 bg-red-100 rounded-sm px-1'
-            }
-          >
-            {percentageOnTarget.toFixed(2)}%
-          </span>
-          <span className='text-muted-foreground text-xs'>
-            ({targetWeight} kg)
-          </span>
-        </span>
-      </TableCell>
-      <TableCell>PB</TableCell>
-      <TableCell align='right'>
-        <Button asChild variant='outline'>
-          <Link to={`/exercises/${exercise.id}`}>View</Link>
-        </Button>
-      </TableCell>
-    </TableRow>
+    <>
+      <TableRow>
+        <TableCell>
+          <Link to={`/exercises/${exercise.id}`}>{exercise.name}</Link>
+        </TableCell>
+        <TableCell>
+          <span className='font-medium'>{latestWeight} kg</span>
+        </TableCell>
+        <TableCell>
+          {!!percentageOnPreviousWeight && (
+            <span className='flex gap-2 items-center'>
+              <span
+                className={
+                  percentageOnPreviousWeight > 0
+                    ? 'text-green-600 bg-green-100 px-1'
+                    : 'text-red-500 bg-red-100 rounded-sm px-1'
+                }
+              >
+                {percentageOnPreviousWeight?.toFixed(2)}%
+              </span>
+              <span className='text-muted-foreground text-xs'>
+                ({previousWeight} kg)
+              </span>
+            </span>
+          )}
+        </TableCell>
+        <TableCell>
+          {!!percentageOnTarget && (
+            <span className='flex gap-2 items-center'>
+              <span
+                className={
+                  percentageOnTarget > 0
+                    ? 'text-green-600 bg-green-100 px-1'
+                    : 'text-red-500 bg-red-100 rounded-sm px-1'
+                }
+              >
+                {percentageOnTarget.toFixed(2)}%
+              </span>
+              <span className='text-muted-foreground text-xs'>
+                ({targetWeight} kg)
+              </span>
+            </span>
+          )}
+        </TableCell>
+        <TableCell>PB</TableCell>
+        <TableCell align='right'>
+          <Button asChild variant='outline'>
+            <Link to={`/exercises/${exercise.id}`}>View</Link>
+          </Button>
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
