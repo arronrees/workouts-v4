@@ -4,3 +4,5 @@ import { WorkoutExerciseController } from '../controllers/workout-exercise.contr
 export const workoutExerciseRouter = Router();
 
 workoutExerciseRouter.get('/', WorkoutExerciseController.index);
+
+workoutExerciseRouter.get('/:id', WorkoutExerciseController.show);

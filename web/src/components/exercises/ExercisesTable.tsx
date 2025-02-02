@@ -207,7 +207,8 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
           <span className='font-medium'>{latestWeight} kg</span>
         </TableCell>
         <TableCell>
-          {!!percentageOnPreviousWeight && (
+          {(!!percentageOnPreviousWeight ||
+            percentageOnPreviousWeight === 0) && (
             <span className='flex gap-2 items-center'>
               <span
                 className={
@@ -225,7 +226,7 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
           )}
         </TableCell>
         <TableCell>
-          {!!percentageOnTarget && (
+          {(!!percentageOnTarget || percentageOnTarget === 0) && (
             <span className='flex gap-2 items-center'>
               <span
                 className={

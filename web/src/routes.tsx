@@ -36,6 +36,9 @@ import ShowWorkoutInstance, {
 import Exercices, {
   loader as exerciseLoader,
 } from './pages/exercises/Index.tsx';
+import ShowExercise, {
+  loader as showExerciseLoader,
+} from './pages/exercises/Show.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -109,5 +112,10 @@ export const routes: RouteObject[] = [
     path: '/exercises',
     element: <Exercices />,
     loader: exerciseLoader,
+  },
+  {
+    path: '/exercises/:id',
+    element: <ShowExercise />,
+    loader: showExerciseLoader,
   },
 ];

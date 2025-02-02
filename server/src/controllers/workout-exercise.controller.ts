@@ -12,7 +12,7 @@ async function index(
       where: {
         workoutExercises: {
           some: {
-            workout: { userId: res.locals.user.id },
+            userId: res.locals.user.id,
           },
         },
       },
@@ -37,4 +37,49 @@ async function index(
   }
 }
 
-export const WorkoutExerciseController = { index };
+async function show(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { id } = req.params;
+
+    const history = await db.workoutInstance.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      where: {
+        userId: res.locals.user.id,
+        exercises: {
+          some: {
+            exercise: { id },
+          },
+        },
+      },
+      include: {
+        workout: {
+          include: {
+            exercises: {
+              where: { exerciseId: id },
+              include: { sets: true },
+            },
+          },
+        },
+        exercises: {
+          where: { exerciseId: id },
+          include: {
+            exercise: true,
+            sets: true,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({ success: true, data: history });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const WorkoutExerciseController = { index, show };
