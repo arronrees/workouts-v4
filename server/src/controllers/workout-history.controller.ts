@@ -103,6 +103,11 @@ async function store(
             exercise: { connect: { id: exercise.id } },
             sortOrder: exercise.sortOrder,
             wasSkipped: exercise.isDeleted,
+            user: {
+              connect: {
+                id: res.locals.user.id,
+              },
+            },
             workoutExercise: { connect: { id: exercise.workoutExerciseId } },
             sets: {
               create: exercise.sets.map((set) =>
@@ -113,6 +118,11 @@ async function store(
                       weight: null,
                       distance: null,
                       wasSkipped: true,
+                      user: {
+                        connect: {
+                          id: res.locals.user.id,
+                        },
+                      },
                     }
                   : {
                       reps: set.reps,
@@ -120,6 +130,11 @@ async function store(
                       weight: set.weight,
                       distance: set.distance,
                       wasSkipped: set.isDeleted,
+                      user: {
+                        connect: {
+                          id: res.locals.user.id,
+                        },
+                      },
                     }
               ),
             },

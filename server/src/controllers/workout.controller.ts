@@ -44,6 +44,11 @@ async function store(
         exercises: {
           create: newWorkoutData.exercises.map((exercise) => ({
             exercise: { connect: { id: exercise.id } },
+            user: {
+              connect: {
+                id: res.locals.user.id,
+              },
+            },
             sortOrder: exercise.sortOrder,
             sets: {
               create: exercise.sets.map((set) => ({
@@ -51,6 +56,11 @@ async function store(
                 time: set.time,
                 weight: set.weight,
                 distance: set.distance,
+                user: {
+                  connect: {
+                    id: res.locals.user.id,
+                  },
+                },
               })),
             },
           })),
@@ -153,6 +163,11 @@ async function update(
                 id: exercise.id,
               },
             },
+            user: {
+              connect: {
+                id: res.locals.user.id,
+              },
+            },
             workout: {
               connect: {
                 id: workout.id,
@@ -164,6 +179,11 @@ async function update(
                 time: set.time,
                 weight: set.weight,
                 distance: set.distance,
+                user: {
+                  connect: {
+                    id: res.locals.user.id,
+                  },
+                },
               })),
             },
           },
@@ -202,6 +222,11 @@ async function update(
                   weight: set.weight,
                   workoutExercise: {
                     connect: { id: exercise.workoutExerciseId },
+                  },
+                  user: {
+                    connect: {
+                      id: res.locals.user.id,
+                    },
                   },
                 },
               });

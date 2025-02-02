@@ -15,16 +15,20 @@ datasource db {
 }
 
 model User {
-  id                  String            @id @unique @default(uuid())
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime          @updatedAt
-  email               String            @unique
-  password            String
-  isVerified          Boolean           @default(false)
-  username            String            @unique
-  refreshTokenVersion Int               @default(1)
-  workouts            Workout[]
-  workoutInstances    WorkoutInstance[]
+  id                       String                    @id @unique @default(uuid())
+  createdAt                DateTime                  @default(now())
+  updatedAt                DateTime                  @updatedAt
+  email                    String                    @unique
+  password                 String
+  isVerified               Boolean                   @default(false)
+  username                 String                    @unique
+  refreshTokenVersion      Int                       @default(1)
+  workouts                 Workout[]
+  workoutInstances         WorkoutInstance[]
+  workoutExercises         WorkoutExercise[]
+  workoutExerciseInstances WorkoutExerciseInstance[]
+  workoutSets              WorkoutSet[]
+  workoutSetInstances      WorkoutSetInstance[]
 }
 
 enum ExerciseMeasurement {
@@ -87,6 +91,8 @@ model WorkoutExercise {
   sortOrder         Int
   notes             String?
   exerciseInstances WorkoutExerciseInstance[]
+  user              User                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String
 }
 
 model WorkoutSet {
@@ -99,6 +105,8 @@ model WorkoutSet {
   distance          Float?
   workoutExercise   WorkoutExercise? @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   workoutExerciseId String?
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String
 }
 
 //
@@ -129,6 +137,8 @@ model WorkoutExerciseInstance {
   wasSkipped        Boolean              @default(false)
   workoutExercise   WorkoutExercise      @relation(fields: [workoutExerciseId], references: [id])
   workoutExerciseId String
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String
 }
 
 model WorkoutSetInstance {
@@ -142,4 +152,6 @@ model WorkoutSetInstance {
   workoutExercise   WorkoutExerciseInstance? @relation(fields: [workoutExerciseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   workoutExerciseId String?
   wasSkipped        Boolean                  @default(false)
+  user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String
 }
