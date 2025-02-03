@@ -17,9 +17,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { API_URL } from '@/constants';
 import { Exercise, MuscleGroup } from '@/constant.types';
 import { Skeleton } from '../../ui/shadcn/skeleton';
-import useAxios from '@/hooks/useAxios';
 import { v4 as uuidv4 } from 'uuid';
 import { EditWorkoutExercise } from '@/pages/workouts/Edit';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 interface Props {
   setSelectedExercises: Dispatch<SetStateAction<EditWorkoutExercise[]>>;
@@ -36,21 +37,33 @@ export default function EditExerciseSelection({
   const [open, setOpen] = useState(false);
 
   const {
-    isLoading: isMuscleGroupDataLoading,
     data: muscleGroupData,
+    isError: isMuscleGroupDataError,
+    isLoading: isMuscleGroupDataLoading,
     error: muscleGroupDataError,
-  } = useAxios<MuscleGroup[]>({
-    url: `${API_URL}/api/muscle-groups`,
-    method: 'get',
+  } = useQuery({
+    queryKey: ['muscle-groups'],
+    queryFn: (): Promise<{ success: boolean; data: MuscleGroup[] }> =>
+      axios
+        .get(`${API_URL}/api/muscle-groups`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
   });
 
   const {
-    isLoading: isExerciseDataLoading,
     data: exerciseData,
+    isError: isExerciseDataError,
+    isLoading: isExerciseDataLoading,
     error: exerciseDataError,
-  } = useAxios<Exercise[]>({
-    url: `${API_URL}/api/exercises`,
-    method: 'get',
+  } = useQuery({
+    queryKey: ['exercises'],
+    queryFn: (): Promise<{ success: boolean; data: Exercise[] }> =>
+      axios
+        .get(`${API_URL}/api/exercises`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
   });
 
   useEffect(() => {
@@ -65,7 +78,7 @@ export default function EditExerciseSelection({
   if (isMuscleGroupDataLoading || isExerciseDataLoading) {
     return <Skeleton className='h-10 w-full' />;
   }
-  if (muscleGroupDataError || exerciseDataError) {
+  if (isMuscleGroupDataError || isExerciseDataError) {
     console.log(muscleGroupDataError);
     console.log(exerciseDataError);
     return (

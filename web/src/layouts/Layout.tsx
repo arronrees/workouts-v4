@@ -30,18 +30,10 @@ export default function UserLayout({ children }: { children: ReactNode }) {
               </li>
               <li>
                 <Link
-                  to='/progress'
+                  to='/leaderboards'
                   className='p-2 rounded transition duration-200 hover:bg-slate-100'
                 >
-                  Progress
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to='/leagues'
-                  className='p-2 rounded transition duration-200 hover:bg-slate-100'
-                >
-                  Leagues
+                  Leaderboards
                 </Link>
               </li>
             </ul>
