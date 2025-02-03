@@ -54,7 +54,7 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: EditWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -76,7 +76,7 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: EditWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -98,7 +98,7 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: EditWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -120,7 +120,7 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: EditWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -142,7 +142,7 @@ export default function EditExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: EditWorkoutSet) => {
               if (s.id === set.id) {
                 return { ...s, isDeleted: true };
               }

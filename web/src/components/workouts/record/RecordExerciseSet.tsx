@@ -57,7 +57,7 @@ export default function RecordExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: RecordWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -79,7 +79,7 @@ export default function RecordExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: RecordWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -101,7 +101,7 @@ export default function RecordExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: RecordWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -123,7 +123,7 @@ export default function RecordExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: RecordWorkoutSet) => {
               if (s.id !== set.id) return s;
 
               return {
@@ -145,7 +145,7 @@ export default function RecordExerciseSet({
         if (exercise.id === selection.id) {
           return {
             ...exercise,
-            sets: exercise.sets.map((s) => {
+            sets: exercise.sets.map((s: RecordWorkoutSet) => {
               if (s.id === set.id) {
                 return { ...s, isDeleted: true };
               }
