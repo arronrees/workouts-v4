@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   RecordWorkoutExercise,
   RecordWorkoutSet,
-} from '@/pages/workouts/Record';
+} from '@/pages/workout/Record';
 import RecordExerciseSet from './RecordExerciseSet';
 
 interface Props {

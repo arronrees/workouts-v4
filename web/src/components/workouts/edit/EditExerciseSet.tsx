@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/shadcn/button';
 import { XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Label } from '../../ui/shadcn/label';
-import { EditWorkoutExercise, EditWorkoutSet } from '@/pages/workouts/Edit';
+import { EditWorkoutExercise, EditWorkoutSet } from '@/pages/workout/Edit';
 
 interface Props {
   measurement:

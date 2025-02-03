@@ -6,7 +6,7 @@ import { Label } from '../../ui/shadcn/label';
 import {
   RecordWorkoutExercise,
   RecordWorkoutSet,
-} from '@/pages/workouts/Record';
+} from '@/pages/workout/Record';
 
 interface Props {
   measurement:

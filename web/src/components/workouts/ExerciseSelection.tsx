@@ -13,7 +13,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { API_URL } from '@/constants';
 import { Exercise, MuscleGroup } from '@/constant.types';
 import { Skeleton } from '../ui/shadcn/skeleton';
-import { NewWorkoutExercise } from '@/pages/workouts/Create';
+import { NewWorkoutExercise } from '@/pages/workout/Create';
 import { v4 as uuidv4 } from 'uuid';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';

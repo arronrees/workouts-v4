@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/shadcn/card';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
-import { EditWorkoutExercise, EditWorkoutSet } from '@/pages/workouts/Edit';
+import { EditWorkoutExercise, EditWorkoutSet } from '@/pages/workout/Edit';
 import EditExerciseSet from './EditExerciseSet';
 
 interface Props {

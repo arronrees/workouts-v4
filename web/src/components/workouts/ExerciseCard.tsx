@@ -11,7 +11,7 @@ import { ChevronDown, ChevronUp, XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
 import { Exercise } from '@/constant.types';
 import ExerciseSets from './ExerciseSets';
-import { NewWorkoutExercise } from '@/pages/workouts/Create';
+import { NewWorkoutExercise } from '@/pages/workout/Create';
 
 interface Props {
   selection: NewWorkoutExercise;
