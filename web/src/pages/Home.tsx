@@ -6,6 +6,8 @@ export async function loader() {
 
   if (user) {
     return redirect('/dashboard');
+  } else {
+    return redirect('/signin');
   }
 
   return null;
