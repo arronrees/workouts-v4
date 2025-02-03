@@ -139,11 +139,12 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
     if (hasSets) {
       setLatestWeight(
         exercise.workoutExercises.reduce(
-          (prev, curr) =>
+          (prev: number, curr: WorkoutExercise) =>
             prev +
             (curr.exerciseInstances && curr.exerciseInstances[0].sets
               ? curr.exerciseInstances[0].sets.reduce(
-                  (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                  (p: number, c: WorkoutSetInstance) =>
+                    p + (c.weight ?? 0) * (c.reps ?? 0),
                   0
                 )
               : 0),
@@ -153,11 +154,12 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
 
       setTargetWeight(
         exercise.workoutExercises.reduce(
-          (prev, curr) =>
+          (prev: number, curr: WorkoutExercise) =>
             prev +
             (curr.sets
               ? curr.sets.reduce(
-                  (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                  (p: number, c: WorkoutSet) =>
+                    p + (c.weight ?? 0) * (c.reps ?? 0),
                   0
                 )
               : 0),
@@ -168,11 +170,12 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
       if (hasPreviousWorkout) {
         setPreviousWeight(
           exercise.workoutExercises.reduce(
-            (prev, curr) =>
+            (prev: number, curr: WorkoutExercise) =>
               prev +
               (curr.exerciseInstances && curr.exerciseInstances[1]?.sets
                 ? curr.exerciseInstances[1]?.sets.reduce(
-                    (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                    (p: number, c: WorkoutSetInstance) =>
+                      p + (c.weight ?? 0) * (c.reps ?? 0),
                     0
                   )
                 : 0),

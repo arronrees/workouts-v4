@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/shadcn/table';
 import { Skeleton } from '../ui/shadcn/skeleton';
-import { WorkoutInstance } from '@/constant.types';
+import { WorkoutInstance, WorkoutSetInstance } from '@/constant.types';
 import { Fragment } from 'react/jsx-runtime';
 
 interface Props {
@@ -39,7 +39,7 @@ export default function WorkoutInstanceTable({ instance, isLoading }: Props) {
           ))}
         {instance.exercises.map((exercise) => (
           <Fragment key={exercise.id}>
-            {exercise.sets.map((set, index) => (
+            {exercise.sets.map((set: WorkoutSetInstance, index: number) => (
               <TableRow
                 key={set.id}
                 className={

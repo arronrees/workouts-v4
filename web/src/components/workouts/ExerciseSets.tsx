@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
 import ExerciseSet from './ExerciseSet';
-import { NewWorkoutExercise } from '@/pages/workouts/Create';
+import { NewWorkoutExercise, NewWorkoutSet } from '@/pages/workouts/Create';
 
 interface Props {
   selection: NewWorkoutExercise;
@@ -39,7 +39,7 @@ export default function ExerciseSets({
       <CardContent className='p-4'>
         <div className='flex flex-col gap-2'>
           {selection.sets && selection.sets.length > 0 ? (
-            selection.sets.map((set, index) => (
+            selection.sets.map((set: NewWorkoutSet, index: number) => (
               <ExerciseSet
                 key={set.id}
                 set={set}

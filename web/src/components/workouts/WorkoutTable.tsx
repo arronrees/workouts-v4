@@ -86,7 +86,7 @@ export default function WorkoutTable({ isLoading, workout }: Props) {
                         </DialogDescription>
                       </DialogHeader>
                       <div className='flex flex-col gap-4'>
-                        {exercise.sets.map((set, index) => (
+                        {exercise.sets.map((set: WorkoutSet, index: number) => (
                           <div key={set.id}>
                             <h3 className='font-semibold text-sm'>
                               Set {index + 1}

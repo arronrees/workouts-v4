@@ -22,7 +22,13 @@ import {
   DialogTrigger,
 } from '../ui/shadcn/dialog';
 import { Input } from '../ui/shadcn/input';
-import { Exercise, WorkoutSet } from '@/constant.types';
+import {
+  Exercise,
+  WorkoutExercise,
+  WorkoutExerciseInstance,
+  WorkoutSet,
+  WorkoutSetInstance,
+} from '@/constant.types';
 
 interface Props {
   isLoading: boolean;
@@ -96,7 +102,7 @@ function ExerciseRow({
     if (hasSets) {
       setLatestWeight(
         instance.exercises.reduce(
-          (prev, curr) =>
+          (prev: number, curr: WorkoutExerciseInstance) =>
             prev +
             (curr.sets
               ? curr.sets.reduce(
@@ -110,11 +116,12 @@ function ExerciseRow({
 
       setTargetWeight(
         instance.workout.exercises.reduce(
-          (prev, curr) =>
+          (prev: number, curr: WorkoutExercise) =>
             prev +
             (curr.sets
               ? curr.sets.reduce(
-                  (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                  (p: number, c: WorkoutSet) =>
+                    p + (c.weight ?? 0) * (c.reps ?? 0),
                   0
                 )
               : 0),
@@ -125,11 +132,12 @@ function ExerciseRow({
       if (next?.workout.id === instance.workout.id) {
         setPreviousWeight(
           next.exercises.reduce(
-            (prev, curr) =>
+            (prev: number, curr: WorkoutExerciseInstance) =>
               prev +
               (curr && curr?.sets
                 ? curr?.sets.reduce(
-                    (p, c) => p + (c.weight ?? 0) * (c.reps ?? 0),
+                    (p: number, c: WorkoutSetInstance) =>
+                      p + (c.weight ?? 0) * (c.reps ?? 0),
                     0
                   )
                 : 0),
@@ -171,8 +179,12 @@ function ExerciseRow({
       </TableCell>
       <TableCell>
         {instance.exercises.reduce(
-          (prev, curr) =>
-            prev + curr.sets.reduce((p, c) => p + (c.reps ?? 0), 0),
+          (prev: number, curr: WorkoutExerciseInstance) =>
+            prev +
+            curr.sets.reduce(
+              (p: number, c: WorkoutSetInstance) => p + (c.reps ?? 0),
+              0
+            ),
           0
         )}
       </TableCell>
@@ -230,12 +242,14 @@ function ExerciseRow({
               </DialogDescription>
             </DialogHeader>
             <div className='flex flex-col gap-4'>
-              {instance.exercises[0].sets.map((set, index) => (
-                <div key={set.id}>
-                  <h3 className='font-semibold text-sm'>Set {index + 1}</h3>
-                  <Set exercise={instance.exercises[0].exercise} set={set} />
-                </div>
-              ))}
+              {instance.exercises[0].sets.map(
+                (set: WorkoutSetInstance, index: number) => (
+                  <div key={set.id}>
+                    <h3 className='font-semibold text-sm'>Set {index + 1}</h3>
+                    <Set exercise={instance.exercises[0].exercise} set={set} />
+                  </div>
+                )
+              )}
             </div>
             <DialogFooter className='sm:justify-start'>
               <DialogClose asChild>

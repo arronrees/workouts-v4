@@ -83,14 +83,17 @@ export default function WorkoutHistoryTable({ id }: Props) {
 }
 
 function WeightLifted({ exercises }: { exercises: WorkoutExerciseInstance[] }) {
-  const weight = exercises.reduce((prev, curr) => {
-    return (
-      prev +
-      curr.sets.reduce((p, c) => {
-        return p + (c.reps ?? 0) * (c.weight ?? 0);
-      }, 0)
-    );
-  }, 0);
+  const weight = exercises.reduce(
+    (prev: number, curr: WorkoutExerciseInstance) => {
+      return (
+        prev +
+        curr.sets.reduce((p, c) => {
+          return p + (c.reps ?? 0) * (c.weight ?? 0);
+        }, 0)
+      );
+    },
+    0
+  );
 
   return <span className='font-medium'>{weight} (kg)</span>;
 }

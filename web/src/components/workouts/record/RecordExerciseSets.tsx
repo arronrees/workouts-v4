@@ -2,7 +2,10 @@ import { Card, CardContent } from '@/components/ui/shadcn/card';
 import { Dispatch, SetStateAction } from 'react';
 import { Button } from '@/components/ui/shadcn/button';
 import { v4 as uuidv4 } from 'uuid';
-import { RecordWorkoutExercise } from '@/pages/workouts/Record';
+import {
+  RecordWorkoutExercise,
+  RecordWorkoutSet,
+} from '@/pages/workouts/Record';
 import RecordExerciseSet from './RecordExerciseSet';
 
 interface Props {
@@ -41,7 +44,7 @@ export default function RecordExerciseSets({
         <div className='flex flex-col gap-2'>
           {selection.sets && selection.sets.length > 0 ? (
             selection.sets.map(
-              (set, index) =>
+              (set: RecordWorkoutSet, index: number) =>
                 !set.isDeleted && (
                   <RecordExerciseSet
                     key={set.id}
