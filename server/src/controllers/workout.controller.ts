@@ -56,6 +56,7 @@ async function store(
                 time: set.time,
                 weight: set.weight,
                 distance: set.distance,
+                sortOrder: set.sortOrder,
                 user: {
                   connect: {
                     id: res.locals.user.id,
@@ -90,7 +91,9 @@ async function show(
     include: {
       exercises: {
         include: {
-          sets: true,
+          sets: {
+            orderBy: { sortOrder: 'asc' },
+          },
           exercise: {
             include: {
               muscles: {
@@ -179,6 +182,7 @@ async function update(
                 time: set.time,
                 weight: set.weight,
                 distance: set.distance,
+                sortOrder: set.sortOrder,
                 user: {
                   connect: {
                     id: res.locals.user.id,
@@ -202,6 +206,7 @@ async function update(
                 time: set.time,
                 reps: set.reps,
                 weight: set.weight,
+                sortOrder: set.sortOrder,
               },
             });
 
@@ -220,6 +225,7 @@ async function update(
                   time: set.time,
                   reps: set.reps,
                   weight: set.weight,
+                  sortOrder: set.sortOrder,
                   workoutExercise: {
                     connect: { id: exercise.workoutExerciseId },
                   },

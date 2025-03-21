@@ -215,13 +215,14 @@ export default function RecordWorkout() {
                 workoutExerciseId: exercise.workoutExerciseId,
                 isDeleted: exercise.isDeleted,
                 sortOrder: exercise.sortOrder,
-                sets: exercise.sets.map((set) => ({
+                sets: exercise.sets.map((set, index) => ({
                   reps: set.reps ?? null,
                   time: set.time ?? null,
                   weight: set.weight ?? null,
                   distance: set.distance ?? null,
                   setId: set.setId,
                   isDeleted: set.isDeleted,
+                  sortOrder: index,
                 })),
               }))
             )}

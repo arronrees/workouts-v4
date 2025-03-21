@@ -210,13 +210,14 @@ export default function EditWorkout() {
                 workoutExerciseId: exercise.workoutExerciseId ?? null,
                 isDeleted: exercise.isDeleted,
                 sortOrder: exercise.sortOrder,
-                sets: exercise.sets.map((set) => ({
+                sets: exercise.sets.map((set, index) => ({
                   reps: set.reps ?? null,
                   time: set.time ?? null,
                   weight: set.weight ?? null,
                   distance: set.distance ?? null,
                   setId: set.setId ?? null,
                   isDeleted: set.isDeleted,
+                  sortOrder: index,
                 })),
               }))
             )}

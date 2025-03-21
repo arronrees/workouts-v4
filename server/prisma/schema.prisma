@@ -107,6 +107,7 @@ model WorkoutSet {
   workoutExerciseId String?
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId            String
+  sortOrder         Int              @default(0)
 }
 
 //
@@ -154,4 +155,5 @@ model WorkoutSetInstance {
   wasSkipped        Boolean                  @default(false)
   user              User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId            String
+  sortOrder         Int                      @default(0)
 }

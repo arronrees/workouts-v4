@@ -123,11 +123,12 @@ export default function CreateWorkout() {
               selectedExercises.map((exercise) => ({
                 id: exercise.exercise.id,
                 sortOrder: exercise.sortOrder,
-                sets: exercise.sets.map((set) => ({
+                sets: exercise.sets.map((set, index) => ({
                   reps: set.reps ?? null,
                   time: set.time ?? null,
                   weight: set.weight ?? null,
                   distance: set.distance ?? null,
+                  sortOrder: index,
                 })),
               }))
             )}

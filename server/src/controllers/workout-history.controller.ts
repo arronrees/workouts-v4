@@ -51,7 +51,9 @@ async function show(
           },
           include: {
             exercise: true,
-            sets: true,
+            sets: {
+              orderBy: { sortOrder: 'asc' },
+            },
           },
         },
       },
@@ -130,6 +132,7 @@ async function store(
                       weight: set.weight,
                       distance: set.distance,
                       wasSkipped: set.isDeleted,
+                      sortOrder: set.sortOrder,
                       user: {
                         connect: {
                           id: res.locals.user.id,

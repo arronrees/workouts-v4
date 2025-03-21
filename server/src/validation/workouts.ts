@@ -42,6 +42,10 @@ export const storeWorkoutData = z
                 invalid_type_error: 'Distance must be a number',
               })
               .nullable(),
+            sortOrder: z.number({
+              required_error: 'Sort order is required',
+              invalid_type_error: 'Sort order must be a number',
+            }),
           })
         ),
         sortOrder: z.number({
@@ -131,6 +135,10 @@ export const updateWorkoutData = z
                 invalid_type_error: 'Distance must be a number',
               })
               .nullable(),
+            sortOrder: z.number({
+              required_error: 'Sort order is required',
+              invalid_type_error: 'Sort order must be a number',
+            }),
           })
         ),
         sortOrder: z.number({
@@ -210,6 +218,10 @@ export const recordWorkoutData = z
                 invalid_type_error: 'Distance must be a number',
               })
               .nullable(),
+            sortOrder: z.number({
+              required_error: 'Sort order is required',
+              invalid_type_error: 'Sort order must be a number',
+            }),
           })
         ),
         sortOrder: z.number({
