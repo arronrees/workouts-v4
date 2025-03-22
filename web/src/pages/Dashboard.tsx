@@ -41,8 +41,8 @@ function Dashboard() {
         </div>
         <div className='grid gap-4 md:grid-cols-3 lg:gap-6'>
           <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-3'>
+              <CardTitle className='text-xs font-normal text-muted-foreground uppercase tracking-wider'>
                 Total Volume Lifted
               </CardTitle>
               <Weight className='h-6 w-6 text-muted-foreground' />
@@ -54,8 +54,8 @@ function Dashboard() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-3'>
+              <CardTitle className='text-xs font-normal text-muted-foreground uppercase tracking-wider'>
                 Sets Completed
               </CardTitle>
               <Dumbbell className='h-6 w-6 text-muted-foreground' />
@@ -67,8 +67,8 @@ function Dashboard() {
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
+            <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-3'>
+              <CardTitle className='text-xs font-normal text-muted-foreground uppercase tracking-wider'>
                 Reps Performed
               </CardTitle>
               <Repeat2 className='h-6 w-6 text-muted-foreground' />

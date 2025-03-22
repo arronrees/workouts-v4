@@ -61,7 +61,13 @@ export default function WorkoutInstanceTable({ instance, isLoading }: Props) {
                       : ''
                   }`}
                 >
-                  {set.wasSkipped ? <span>-</span> : set.reps}
+                  {set.wasSkipped ||
+                  exercise.exercise.measurement === 'time_or_distance' ||
+                  exercise.exercise.measurement === 'time' ? (
+                    <span>-</span>
+                  ) : (
+                    set.reps
+                  )}
                 </TableCell>
                 <TableCell className='font-medium'>
                   {set.wasSkipped ? (
@@ -96,9 +102,9 @@ function Weight({ weight }: { weight?: number | null }) {
 }
 
 function Time({ time }: { time?: number | null }) {
-  return time ? time + 'minutes' : null;
+  return time ? time + ' minutes' : null;
 }
 
 function Distance({ distance }: { distance?: number | null }) {
-  return distance ? distance + 'meters' : null;
+  return distance ? distance + ' meters' : null;
 }

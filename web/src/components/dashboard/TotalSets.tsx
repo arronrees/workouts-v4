@@ -29,5 +29,5 @@ export default function TotalSets() {
     return <Skeleton className='h-10 w-full' />;
   }
 
-  return <span>{data.data}</span>;
+  return <span>{new Intl.NumberFormat('en-GB').format(data.data)}</span>;
 }

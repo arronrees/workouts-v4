@@ -36,7 +36,10 @@ export default function TotalWeight() {
 
   return (
     <span>
-      {data?.data?.reduce((prev, curr) => prev + curr.reps * curr.weight, 0)} kg
+      {new Intl.NumberFormat('en-GB').format(
+        data?.data?.reduce((prev, curr) => prev + curr.reps * curr.weight, 0)
+      )}{' '}
+      kg
     </span>
   );
 }

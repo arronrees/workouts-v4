@@ -188,7 +188,7 @@ function ExerciseRow({
           0
         )}
       </TableCell>
-      <TableCell className='font-medium'>{latestWeight}(kg)</TableCell>
+      <TableCell className='font-medium'>{latestWeight}kg</TableCell>
       <TableCell>
         {(!!percentageOnPreviousWeight || percentageOnPreviousWeight === 0) && (
           <span className='flex gap-2 items-center'>

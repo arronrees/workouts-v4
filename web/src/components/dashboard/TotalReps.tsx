@@ -33,5 +33,11 @@ export default function TotalReps() {
     return <Skeleton className='h-10 w-full' />;
   }
 
-  return <span>{data.data.reduce((prev, curr) => prev + curr.reps, 0)}</span>;
+  return (
+    <span>
+      {new Intl.NumberFormat('en-GB').format(
+        data.data.reduce((prev, curr) => prev + curr.reps, 0)
+      )}
+    </span>
+  );
 }
