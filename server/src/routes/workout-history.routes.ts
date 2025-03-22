@@ -7,6 +7,15 @@ export const workoutHistoryRouter = Router();
 workoutHistoryRouter.get('/:workoutId', WorkoutHistoryController.index);
 
 workoutHistoryRouter.get(
+  '/totals/weight',
+  WorkoutHistoryController.totalWeight
+);
+
+workoutHistoryRouter.get('/totals/sets', WorkoutHistoryController.totalSets);
+
+workoutHistoryRouter.get('/totals/reps', WorkoutHistoryController.totalReps);
+
+workoutHistoryRouter.get(
   '/:workoutId/:instanceId',
   WorkoutHistoryController.show
 );

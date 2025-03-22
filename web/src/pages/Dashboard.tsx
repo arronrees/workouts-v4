@@ -9,6 +9,9 @@ import {
   CardTitle,
 } from '@/components/ui/shadcn/card';
 import { Dumbbell, Repeat2, Weight } from 'lucide-react';
+import TotalWeight from '@/components/dashboard/TotalWeight';
+import TotalSets from '@/components/dashboard/TotalSets';
+import TotalReps from '@/components/dashboard/TotalReps';
 
 export async function loader() {
   const user = await getUser();
@@ -39,35 +42,41 @@ function Dashboard() {
         <div className='grid gap-4 md:grid-cols-3 lg:gap-6'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal'>
+              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
                 Total Volume Lifted
               </CardTitle>
               <Weight className='h-6 w-6 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>4398 kg</div>
+              <div className='text-5xl tracking-wider font-light'>
+                <TotalWeight />
+              </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal'>
+              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
                 Sets Completed
               </CardTitle>
               <Dumbbell className='h-6 w-6 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>184</div>
+              <div className='text-5xl tracking-wider font-light'>
+                <TotalSets />
+              </div>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-              <CardTitle className='text-sm font-normal'>
+              <CardTitle className='text-sm font-normal text-muted-foreground uppercase tracking-wider'>
                 Reps Performed
               </CardTitle>
               <Repeat2 className='h-6 w-6 text-muted-foreground' />
             </CardHeader>
             <CardContent>
-              <div className='text-2xl font-bold'>625</div>
+              <div className='text-5xl tracking-wider font-light'>
+                <TotalReps />
+              </div>
             </CardContent>
           </Card>
         </div>

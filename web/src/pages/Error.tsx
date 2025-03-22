@@ -9,7 +9,7 @@ export default function ErrorPage() {
       <main className='grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8'>
         <div className='text-center'>
           <p className='text-base font-semibold '>404</p>
-          <h1 className='mt-4 text-balance text-5xl font-semibold tracking-tight  sm:text-7xl'>
+          <h1 className='mt-4 text-balance text-5xl font-semibold tracking-wide  sm:text-7xl'>
             <i>{error.statusText}</i>
           </h1>
           <p className='mt-6 text-pretty text-lg font-medium  sm:text-xl/8'>
@@ -28,7 +28,7 @@ export default function ErrorPage() {
       <main className='grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8'>
         <div className='text-center'>
           <p className='text-base font-semibold '>500</p>
-          <h1 className='mt-4 text-balance text-5xl font-semibold tracking-tight  sm:text-7xl'>
+          <h1 className='mt-4 text-balance text-5xl font-semibold tracking-wide  sm:text-7xl'>
             <i>Something went wrong.</i>
           </h1>
           <p className='mt-6 text-pretty text-lg font-medium  sm:text-xl/8'>

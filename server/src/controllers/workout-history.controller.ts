@@ -154,4 +154,86 @@ async function store(
   }
 }
 
-export const WorkoutHistoryController = { store, index, show };
+async function totalWeight(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { id } = res.locals.user;
+
+    const weight = await db.workoutSetInstance.findMany({
+      where: {
+        userId: id,
+        wasSkipped: false,
+        workoutExercise: {
+          exercise: {
+            measurement: 'weight',
+          },
+        },
+      },
+      select: {
+        weight: true,
+        reps: true,
+      },
+    });
+
+    return res.status(200).json({ success: true, data: weight });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function totalSets(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { id } = res.locals.user;
+
+    const sets = await db.workoutSetInstance.count({
+      where: { userId: id, wasSkipped: false },
+    });
+
+    return res.status(200).json({ success: true, data: sets });
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function totalReps(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { id } = res.locals.user;
+
+    const reps = await db.workoutSetInstance.findMany({
+      where: {
+        userId: id,
+        wasSkipped: false,
+        workoutExercise: {
+          exercise: {
+            OR: [{ measurement: 'weight' }, { measurement: 'reps_only' }],
+          },
+        },
+      },
+      select: { reps: true },
+    });
+
+    return res.status(200).json({ success: true, data: reps });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export const WorkoutHistoryController = {
+  store,
+  index,
+  show,
+  totalWeight,
+  totalSets,
+  totalReps,
+};

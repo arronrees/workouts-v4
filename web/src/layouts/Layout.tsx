@@ -4,7 +4,7 @@ import { CircleUser, Weight } from 'lucide-react';
 
 export default function UserLayout({ children }: { children: ReactNode }) {
   return (
-    <div className='min-h-screen flex flex-col bg-slate-50'>
+    <div className='min-h-screen flex flex-col bg-slate-50 tracking-wide'>
       <div className='bg-white shadow-sm'>
         <header className='py-4 px-6 flex gap-8 items-center text-sm lg:text-base lg:gap-10 max-w-7xl mx-auto w-full'>
           <Link to='/'>
