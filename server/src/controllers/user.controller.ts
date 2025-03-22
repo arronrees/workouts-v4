@@ -25,7 +25,7 @@ async function show(
   });
 }
 
-export async function store(
+async function store(
   req: Request,
   res: Response<JsonApiResponse>,
   next: NextFunction

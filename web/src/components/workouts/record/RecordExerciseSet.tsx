@@ -39,13 +39,10 @@ export default function RecordExerciseSet({
   function preventScrollOnNumberInputWheel(
     e: React.WheelEvent<HTMLInputElement>
   ) {
-    // Prevent the input value change
     (e.target as HTMLInputElement).blur();
 
-    // Prevent the page/container scrolling
     e.stopPropagation();
 
-    // Refocus immediately, on the next tick (after the current function is done)
     setTimeout(() => {
       (e.target as HTMLInputElement).focus();
     }, 0);

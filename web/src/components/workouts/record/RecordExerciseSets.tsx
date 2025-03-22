@@ -28,6 +28,10 @@ export default function RecordExerciseSets({
               {
                 id: uuidv4(),
                 isDeleted: false,
+                targetWeight: 0,
+                targetReps: 0,
+                targetDistance: 0,
+                targetTime: 0,
               },
             ],
           };

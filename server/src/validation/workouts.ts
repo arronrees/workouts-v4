@@ -190,9 +190,6 @@ export const recordWorkoutData = z
         isDeleted: z.boolean(),
         sets: z.array(
           z.object({
-            setId: z.string({
-              invalid_type_error: 'Set ID must be a string',
-            }),
             isDeleted: z.boolean(),
             reps: z
               .number({
