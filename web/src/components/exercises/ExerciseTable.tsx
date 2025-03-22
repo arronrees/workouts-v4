@@ -242,14 +242,14 @@ function ExerciseRow({
               </DialogDescription>
             </DialogHeader>
             <div className='flex flex-col gap-4'>
-              {instance.exercises[0].sets.map(
-                (set: WorkoutSetInstance, index: number) => (
+              {instance.exercises[0].sets
+                .filter((set) => !set.wasSkipped)
+                .map((set: WorkoutSetInstance, index: number) => (
                   <div key={set.id}>
                     <h3 className='font-semibold text-sm'>Set {index + 1}</h3>
                     <Set exercise={instance.exercises[0].exercise} set={set} />
                   </div>
-                )
-              )}
+                ))}
             </div>
             <DialogFooter className='sm:justify-start'>
               <DialogClose asChild>
