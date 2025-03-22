@@ -61,13 +61,12 @@ export default function WorkoutInstanceTable({ instance, isLoading }: Props) {
                       : ''
                   }`}
                 >
-                  {set.wasSkipped && <span>-</span>}
-                  {set.reps}
+                  {set.wasSkipped ? <span>-</span> : set.reps}
                 </TableCell>
                 <TableCell className='font-medium'>
-                  {set.wasSkipped && <span>-</span>}
-
-                  {exercise.exercise.measurement === 'reps_only' ? (
+                  {set.wasSkipped ? (
+                    <span>-</span>
+                  ) : exercise.exercise.measurement === 'reps_only' ? (
                     <span>-</span>
                   ) : exercise.exercise.measurement === 'weight' ? (
                     <Weight weight={set.weight} />
