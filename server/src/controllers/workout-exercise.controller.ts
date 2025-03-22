@@ -17,7 +17,6 @@ async function index(
         },
       },
       include: {
-        muscles: { include: { muscle: true } },
         workoutExercises: {
           include: {
             sets: true,

@@ -10,6 +10,9 @@ async function index(
 ) {
   try {
     const { workoutId } = req.params;
+    const { limit } = req.query;
+
+    console.log(limit);
 
     const history = await db.workoutInstance.findMany({
       where: { workoutId },
@@ -23,6 +26,7 @@ async function index(
         },
       },
       orderBy: { createdAt: 'desc' },
+      take: Number.isFinite(Number(limit)) ? Number(limit) : undefined,
     });
 
     return res.status(200).json({ success: true, data: history });

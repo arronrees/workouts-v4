@@ -16,14 +16,15 @@ import { WorkoutExerciseInstance, WorkoutInstance } from '@/constant.types';
 
 interface Props {
   id: string;
+  limit?: number;
 }
 
-export default function WorkoutHistoryTable({ id }: Props) {
+export default function WorkoutHistoryTable({ id, limit }: Props) {
   const { data, isError, isLoading, error } = useQuery({
-    queryKey: ['workout-history', id],
+    queryKey: ['workout-history', id, limit],
     queryFn: (): Promise<{ success: boolean; data: WorkoutInstance[] }> =>
       axios
-        .get(`${API_URL}/api/workouts/history/${id}`, {
+        .get(`${API_URL}/api/workouts/history/${id}?limit=${limit}`, {
           withCredentials: true,
         })
         .then((res) => res.data),

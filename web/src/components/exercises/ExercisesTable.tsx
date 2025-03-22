@@ -1,11 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { API_URL } from '../../constants';
 import axios from 'axios';
-import {
-  ExerciseMuscleGroup,
-  WorkoutSet,
-  WorkoutSetInstance,
-} from '../../constant.types';
+import { WorkoutSet, WorkoutSetInstance } from '../../constant.types';
 import { Link } from 'react-router-dom';
 import {
   Table,
@@ -49,7 +45,7 @@ interface ExerciseProgression {
     | 'time_or_distance'
     | 'distance';
   equipmentNeeded: 'Full' | 'Basic' | 'None';
-  muscles: ExerciseMuscleGroup[];
+
   workoutExercises: WorkoutExercise[];
 }
 
@@ -184,7 +180,7 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
         );
       }
     }
-  }, [exercise.workoutExercises]);
+  }, [exercise.workoutExercises, exercise.measurement]);
 
   useEffect(() => {
     if (previousWeight > 0) {
@@ -246,7 +242,9 @@ function ExerciseRow({ exercise }: { exercise: ExerciseProgression }) {
             </span>
           )}
         </TableCell>
-        <TableCell>PB</TableCell>
+        <TableCell>
+          <span className='font-medium'>PB</span>
+        </TableCell>
         <TableCell align='right'>
           <Button asChild variant='outline'>
             <Link to={`/exercises/${exercise.id}`}>View</Link>

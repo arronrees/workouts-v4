@@ -117,7 +117,9 @@ export default function ShowWorkout() {
                 </Link>
               </Button>
             </CardHeader>
-            <CardContent>{id && <WorkoutHistoryTable id={id} />}</CardContent>
+            <CardContent>
+              {id && <WorkoutHistoryTable id={id} limit={5} />}
+            </CardContent>
           </Card>
         </div>
       </PageStructure>
