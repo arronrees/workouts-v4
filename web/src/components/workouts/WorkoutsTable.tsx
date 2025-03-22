@@ -70,6 +70,9 @@ export default function WorkoutsTable() {
                   <Button asChild variant='outline'>
                     <Link to={`/workouts/${workout.id}`}>View</Link>
                   </Button>
+                  <Button asChild size='sm'>
+                    <Link to={`/workouts/${workout.id}/record`}>Record</Link>
+                  </Button>
                 </div>
               </TableCell>
             </TableRow>

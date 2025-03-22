@@ -238,7 +238,6 @@ function TimeInput({
         onChange={(e) => {
           updateSetTime(e.target.value);
         }}
-        autoFocus
       />
     </div>
   );
@@ -266,7 +265,6 @@ function RepsInput({
         onChange={(e) => {
           updateSetReps(e.target.value);
         }}
-        autoFocus
       />
     </div>
   );
@@ -299,7 +297,6 @@ function WeightInput({
           onChange={(e) => {
             updateSetReps(e.target.value);
           }}
-          autoFocus
         />
       </div>
       <div className='flex flex-col gap-1 w-full'>
@@ -349,7 +346,6 @@ function TimeOrDistanceInput({
           onChange={(e) => {
             updateSetDistance(e.target.value);
           }}
-          autoFocus
         />
       </div>
       <div className='flex flex-col gap-1 w-full'>
@@ -392,7 +388,6 @@ function DistanceInput({
         onChange={(e) => {
           updateSetDistance(e.target.value);
         }}
-        autoFocus
       />
     </div>
   );

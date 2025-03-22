@@ -39,7 +39,7 @@ export default function RecordExerciseSets({
   }
 
   return (
-    <Card className='bg-slate-50/60'>
+    <Card className='bg-slate-50'>
       <CardContent className='p-4'>
         <div className='flex flex-col gap-2'>
           {selection.sets && selection.sets.length > 0 ? (
