@@ -2,7 +2,7 @@ import { Input } from '@/components/ui/shadcn/input';
 import { Button } from '@/components/ui/shadcn/button';
 import { XIcon } from 'lucide-react';
 import { Dispatch, SetStateAction } from 'react';
-import { NewWorkoutExercise, NewWorkoutSet } from '@/pages/workout/Create';
+import { NewWorkoutExercise, NewWorkoutSet } from '@/pages/workouts/Create';
 import { Label } from '../ui/shadcn/label';
 
 interface Props {

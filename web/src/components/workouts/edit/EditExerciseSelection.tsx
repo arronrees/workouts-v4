@@ -18,7 +18,7 @@ import { API_URL } from '@/constants';
 import { Exercise, MuscleGroup } from '@/constant.types';
 import { Skeleton } from '../../ui/shadcn/skeleton';
 import { v4 as uuidv4 } from 'uuid';
-import { EditWorkoutExercise } from '@/pages/workout/Edit';
+import { EditWorkoutExercise } from '@/pages/workouts/Edit';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 

@@ -11,26 +11,28 @@ import SignUp, {
   action as signUpAction,
 } from './pages/auth/SignUp.tsx';
 import { signOutAction } from './constants.ts';
-import Workouts, { loader as workoutsLoader } from './pages/workout/Index.tsx';
+import Workouts, { loader as workoutsLoader } from './pages/workouts/Index.tsx';
 import CreateWorkout, {
   loader as createWorkoutLoader,
   action as createWorkoutAction,
-} from './pages/workout/Create.tsx';
-import ShowWorkout, { loader as workoutLoader } from './pages/workout/Show.tsx';
+} from './pages/workouts/Create.tsx';
+import ShowWorkout, {
+  loader as workoutLoader,
+} from './pages/workouts/Show.tsx';
 import EditWorkout, {
   loader as editWorkoutLoader,
   action as editWorkoutAction,
-} from './pages/workout/Edit.tsx';
+} from './pages/workouts/Edit.tsx';
 import RecordWorkout, {
   loader as recordWorkoutLoader,
   action as recordWorkoutAction,
-} from './pages/workout/Record.tsx';
+} from './pages/workouts/Record.tsx';
 import WorkoutHistory, {
   loader as workoutHistoryLoader,
-} from './pages/workout/history/Index.tsx';
+} from './pages/workouts/history/Index.tsx';
 import ShowWorkoutInstance, {
   loader as workoutInstanceLoader,
-} from './pages/workout/history/Show.tsx';
+} from './pages/workouts/history/Show.tsx';
 import Exercices, {
   loader as exerciseLoader,
 } from './pages/exercises/Index.tsx';
