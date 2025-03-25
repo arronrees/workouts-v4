@@ -39,6 +39,9 @@ import Exercices, {
 import ShowExercise, {
   loader as showExerciseLoader,
 } from './pages/exercises/Show.tsx';
+import AllWorkoutHistory, {
+  loader as allWorkoutHistoryLoader,
+} from './pages/workouts/history/All.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -80,6 +83,11 @@ export const routes: RouteObject[] = [
     element: <CreateWorkout />,
     loader: createWorkoutLoader,
     action: createWorkoutAction,
+  },
+  {
+    path: '/workouts/history',
+    element: <AllWorkoutHistory />,
+    loader: allWorkoutHistoryLoader,
   },
   {
     path: '/workouts/:id',

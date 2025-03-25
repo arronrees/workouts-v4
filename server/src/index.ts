@@ -43,8 +43,8 @@ app.use(
 app.use('/api/auth', authRouter);
 app.use(checkAuthTokens);
 app.use('/api/user', userRouter);
-app.use('/api/workouts', workoutRouter);
 app.use('/api/workouts/history', workoutHistoryRouter);
+app.use('/api/workouts', workoutRouter);
 app.use('/api/workout-exercises', workoutExerciseRouter);
 app.use('/api/exercises', exerciseRouter);
 app.use('/api/muscle-groups', muscleGroupRouter);

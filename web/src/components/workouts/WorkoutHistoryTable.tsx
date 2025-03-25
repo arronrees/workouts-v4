@@ -9,29 +9,25 @@ import {
 import { Button } from '../ui/shadcn/button';
 import { Skeleton } from '../ui/shadcn/skeleton';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { API_URL } from '@/constants';
-import axios from 'axios';
 import { WorkoutExerciseInstance, WorkoutInstance } from '@/constant.types';
 
 interface Props {
-  id: string;
-  limit?: number;
+  isError: boolean;
+  isLoading: boolean;
+  error: Error | null;
+  data?: WorkoutInstance[];
+  showWorkout?: boolean;
 }
 
-export default function WorkoutHistoryTable({ id, limit }: Props) {
-  const { data, isError, isLoading, error } = useQuery({
-    queryKey: ['workout-history', id, limit],
-    queryFn: (): Promise<{ success: boolean; data: WorkoutInstance[] }> =>
-      axios
-        .get(`${API_URL}/api/workouts/history/${id}?limit=${limit}`, {
-          withCredentials: true,
-        })
-        .then((res) => res.data),
-  });
-
+export default function WorkoutHistoryTable({
+  isError,
+  isLoading,
+  error,
+  data,
+  showWorkout,
+}: Props) {
   if (isError) {
-    console.log(error.message);
+    console.log(error?.message);
 
     return (
       <p className='error__style'>
@@ -45,6 +41,7 @@ export default function WorkoutHistoryTable({ id, limit }: Props) {
       <TableHeader>
         <TableRow>
           <TableHead>Date</TableHead>
+          {showWorkout && <TableHead>Workout</TableHead>}
           <TableHead>Weight Lifted</TableHead>
           <TableHead></TableHead>
         </TableRow>
@@ -60,18 +57,21 @@ export default function WorkoutHistoryTable({ id, limit }: Props) {
               ))}
             </TableRow>
           ))}
-        {data?.data &&
-          data.data.map((instance) => (
+        {data &&
+          data.map((instance) => (
             <TableRow key={instance.id}>
               <TableCell>
                 <span>{new Date(instance.createdAt).toDateString()}</span>
               </TableCell>
+              {showWorkout && <TableCell>{instance.workout.name}</TableCell>}
               <TableCell>
                 <WeightLifted exercises={instance.exercises} />
               </TableCell>
               <TableCell align='right'>
                 <Button type='button' variant='outline' asChild>
-                  <Link to={`/workouts/${id}/history/${instance.id}`}>
+                  <Link
+                    to={`/workouts/${instance.workoutId}/history/${instance.id}`}
+                  >
                     View
                   </Link>
                 </Button>

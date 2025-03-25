@@ -4,6 +4,8 @@ import { validateRecordWorkoutData } from '../validation/workouts';
 
 export const workoutHistoryRouter = Router();
 
+workoutHistoryRouter.get('/', WorkoutHistoryController.all);
+
 workoutHistoryRouter.get('/:workoutId', WorkoutHistoryController.index);
 
 workoutHistoryRouter.get(

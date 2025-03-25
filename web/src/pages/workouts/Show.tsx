@@ -21,7 +21,7 @@ import PageStructure from '@/components/ui/PageStructure';
 import { Button } from '@/components/ui/shadcn/button';
 import { ArrowUpRight } from 'lucide-react';
 import axios from 'axios';
-import { Workout } from '@/constant.types';
+import { Workout, WorkoutInstance } from '@/constant.types';
 import { useQuery } from '@tanstack/react-query';
 import WorkoutHistoryTable from '@/components/workouts/WorkoutHistoryTable';
 
@@ -43,6 +43,23 @@ export default function ShowWorkout() {
     queryFn: (): Promise<{ success: boolean; data: Workout }> =>
       axios
         .get(`${API_URL}/api/workouts/${id}`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
+  });
+
+  const limit = 5;
+
+  const {
+    data: historyData,
+    isError: isHistoryError,
+    isLoading: isHistoryLoading,
+    error: historyError,
+  } = useQuery({
+    queryKey: ['workout-history', id, limit],
+    queryFn: (): Promise<{ success: boolean; data: WorkoutInstance[] }> =>
+      axios
+        .get(`${API_URL}/api/workouts/history/${id}?limit=${limit}`, {
           withCredentials: true,
         })
         .then((res) => res.data),
@@ -112,13 +129,20 @@ export default function ShowWorkout() {
               </div>
               <Button asChild size='sm'>
                 <Link to={`/workouts/${id}/history`}>
-                  All History
+                  All Workout History
                   <ArrowUpRight />
                 </Link>
               </Button>
             </CardHeader>
             <CardContent>
-              {id && <WorkoutHistoryTable id={id} limit={5} />}
+              {id && (
+                <WorkoutHistoryTable
+                  data={historyData?.data}
+                  isError={isHistoryError}
+                  isLoading={isHistoryLoading}
+                  error={historyError}
+                />
+              )}
             </CardContent>
           </Card>
         </div>

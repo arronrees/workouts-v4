@@ -1,7 +1,4 @@
-import { Link, redirect } from 'react-router-dom';
-import { API_URL, getUser } from '../../constants';
-import UserLayout from '../../layouts/Layout';
-import WorkoutsTable from '../../components/workouts/WorkoutsTable';
+import { redirect } from 'react-router-dom';
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -18,12 +15,12 @@ import {
   CardTitle,
 } from '@/components/ui/shadcn/card';
 import PageStructure from '@/components/ui/PageStructure';
-import { Button } from '@/components/ui/shadcn/button';
-import { ArrowUpRight } from 'lucide-react';
-import WorkoutHistoryTable from '@/components/workouts/WorkoutHistoryTable';
 import axios from 'axios';
 import { WorkoutInstance } from '@/constant.types';
 import { useQuery } from '@tanstack/react-query';
+import WorkoutHistoryTable from '@/components/workouts/WorkoutHistoryTable';
+import { API_URL, getUser } from '@/constants';
+import UserLayout from '@/layouts/Layout';
 
 export async function loader() {
   const user = await getUser();
@@ -35,18 +32,24 @@ export async function loader() {
   return {};
 }
 
-export default function Workouts() {
-  const limit = 5;
-
+export default function AllWorkoutHistory() {
   const { data, isError, isLoading, error } = useQuery({
-    queryKey: ['workout-history-all', limit],
+    queryKey: ['workout-history-all'],
     queryFn: (): Promise<{ success: boolean; data: WorkoutInstance[] }> =>
       axios
-        .get(`${API_URL}/api/workouts/history?limit=${limit}`, {
+        .get(`${API_URL}/api/workouts/history`, {
           withCredentials: true,
         })
         .then((res) => res.data),
   });
+
+  if (isError) {
+    return (
+      <p className='error__style'>
+        There was an error fetching the workout, please try again.
+      </p>
+    );
+  }
 
   return (
     <UserLayout>
@@ -58,7 +61,11 @@ export default function Workouts() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Workouts</BreadcrumbPage>
+              <BreadcrumbLink href='/workouts'>Workouts</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>History</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -66,44 +73,18 @@ export default function Workouts() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between gap-2'>
             <div>
-              <CardTitle>My Workouts</CardTitle>
-              <CardDescription>
-                A list of workouts you have created.
-              </CardDescription>
-            </div>
-            <Button asChild size='sm'>
-              <Link to='/workouts/create'>
-                Create New Workout
-                <ArrowUpRight />
-              </Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <WorkoutsTable />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className='flex flex-row items-center justify-between gap-2'>
-            <div>
               <CardTitle>Workout History</CardTitle>
               <CardDescription>
-                A list of all the workouts you have completed.
+                View times you've completed this workout
               </CardDescription>
             </div>
-            <Button asChild size='sm'>
-              <Link to='/workouts/history'>
-                All History
-                <ArrowUpRight />
-              </Link>
-            </Button>
           </CardHeader>
           <CardContent>
             <WorkoutHistoryTable
-              isError={isError}
               isLoading={isLoading}
-              error={error}
               data={data?.data}
+              isError={isError}
+              error={error}
               showWorkout
             />
           </CardContent>

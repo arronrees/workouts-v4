@@ -35,6 +35,36 @@ async function index(
   }
 }
 
+async function all(
+  req: Request,
+  res: Response<JsonApiResponse> & { locals: AuthLocals },
+  next: NextFunction
+) {
+  try {
+    const { id } = res.locals.user;
+    const { limit } = req.query;
+
+    const history = await db.workoutInstance.findMany({
+      where: { userId: id },
+      include: {
+        workout: { select: { name: true } },
+        exercises: {
+          include: {
+            exercise: true,
+            sets: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: Number.isFinite(Number(limit)) ? Number(limit) : undefined,
+    });
+
+    return res.status(200).json({ success: true, data: history });
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function show(
   req: Request,
   res: Response<JsonApiResponse> & { locals: AuthLocals },
@@ -236,6 +266,7 @@ async function totalReps(
 export const WorkoutHistoryController = {
   store,
   index,
+  all,
   show,
   totalWeight,
   totalSets,

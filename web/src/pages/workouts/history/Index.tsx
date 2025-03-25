@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/shadcn/card';
 import PageStructure from '@/components/ui/PageStructure';
 import axios from 'axios';
-import { Workout } from '@/constant.types';
+import { WorkoutInstance } from '@/constant.types';
 import { useQuery } from '@tanstack/react-query';
 import WorkoutHistoryTable from '@/components/workouts/WorkoutHistoryTable';
 import { API_URL, getUser } from '@/constants';
@@ -35,19 +35,17 @@ export async function loader() {
 export default function WorkoutHistory() {
   const { id } = useParams();
 
-  const { data, isError, error } = useQuery({
-    queryKey: ['workout', id],
-    queryFn: (): Promise<{ success: boolean; data: Workout }> =>
+  const { data, isError, isLoading, error } = useQuery({
+    queryKey: ['workout-history', id],
+    queryFn: (): Promise<{ success: boolean; data: WorkoutInstance[] }> =>
       axios
-        .get(`${API_URL}/api/workouts/${id}`, {
+        .get(`${API_URL}/api/workouts/history/${id}`, {
           withCredentials: true,
         })
         .then((res) => res.data),
   });
 
   if (isError) {
-    console.log(error.message);
-
     return (
       <p className='error__style'>
         There was an error fetching the workout, please try again.
@@ -69,8 +67,8 @@ export default function WorkoutHistory() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/workouts/${data?.data.id}`}>
-                {data?.data.name}
+              <BreadcrumbLink href={`/workouts/${data?.data[0]?.workoutId}`}>
+                {data?.data[0]?.workout.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -89,7 +87,16 @@ export default function WorkoutHistory() {
               </CardDescription>
             </div>
           </CardHeader>
-          <CardContent>{id && <WorkoutHistoryTable id={id} />}</CardContent>
+          <CardContent>
+            {id && (
+              <WorkoutHistoryTable
+                isLoading={isLoading}
+                data={data?.data}
+                isError={isError}
+                error={error}
+              />
+            )}
+          </CardContent>
         </Card>
       </PageStructure>
     </UserLayout>
