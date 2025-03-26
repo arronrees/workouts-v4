@@ -1,8 +1,22 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { CircleUser, Weight } from 'lucide-react';
+import { User } from '@/constant.types';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { API_URL } from '@/constants';
 
 export default function UserLayout({ children }: { children: ReactNode }) {
+  const { data } = useQuery({
+    queryKey: ['user-details'],
+    queryFn: (): Promise<{ success: boolean; data: User }> =>
+      axios
+        .get(`${API_URL}/api/user`, {
+          withCredentials: true,
+        })
+        .then((res) => res.data),
+  });
+
   return (
     <div className='min-h-screen flex flex-col bg-slate-50 tracking-wide'>
       <div className='bg-white shadow-sm'>
@@ -38,13 +52,14 @@ export default function UserLayout({ children }: { children: ReactNode }) {
               </li>
             </ul>
           </nav>
-          <div className='ml-auto'>
-            <button
-              type='button'
+          <div className='ml-auto flex gap-2 items-center'>
+            {data?.data.username}
+            <Link
+              to='/profile'
               className='flex items-center justify-center p-2 rounded transition duration-200 hover:bg-slate-100'
             >
               <CircleUser />
-            </button>
+            </Link>
           </div>
         </header>
       </div>

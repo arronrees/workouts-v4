@@ -42,6 +42,10 @@ import ShowExercise, {
 import AllWorkoutHistory, {
   loader as allWorkoutHistoryLoader,
 } from './pages/workouts/history/All.tsx';
+import Profile, {
+  loader as profileLoader,
+  action as profileAction,
+} from './pages/Profile.tsx';
 
 export const routes: RouteObject[] = [
   {
@@ -72,6 +76,12 @@ export const routes: RouteObject[] = [
     path: '/dashboard',
     element: <Dashboard />,
     loader: dashboardLoader,
+  },
+  {
+    path: '/profile',
+    element: <Profile />,
+    loader: profileLoader,
+    action: profileAction,
   },
   {
     path: '/workouts',

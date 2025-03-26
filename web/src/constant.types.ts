@@ -3,6 +3,13 @@ export interface SessionUser {
   isVerified: boolean;
 }
 
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  isVerified: boolean;
+}
+
 export interface Workout {
   id: string;
   name: string;

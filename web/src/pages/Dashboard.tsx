@@ -1,4 +1,4 @@
-import { redirect, useFetcher } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 import { getUser } from '../constants';
 import UserLayout from '../layouts/Layout';
 import PageStructure from '@/components/ui/PageStructure';
@@ -24,21 +24,9 @@ export async function loader() {
 }
 
 function Dashboard() {
-  const fetcher = useFetcher();
-
   return (
     <UserLayout>
       <PageStructure>
-        <div className='md:col-span-3'>
-          <fetcher.Form method='post' action='/signout'>
-            <button
-              type='submit'
-              className='flex w-full justify-center bg-red-500 rounded max-w-max px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm transition hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500'
-            >
-              Sign Out
-            </button>
-          </fetcher.Form>
-        </div>
         <div className='grid gap-4 md:grid-cols-3 lg:gap-6'>
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-3'>
